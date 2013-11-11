@@ -90,7 +90,7 @@ public class ValidateBibtex implements Command {
         } catch (IOException e) {
             throw new IllegalStateException("could not read file " + bibtexFile, e);
         } catch (ParseException e) {
-            throw new IllegalStateException("could not parse bibtex file " + bibtexFile, e);
+            throw new IllegalStateException("could not parse bibtex file " + bibtexFile + "\n" + e.getMessage(), e);
         }
     }
 }
