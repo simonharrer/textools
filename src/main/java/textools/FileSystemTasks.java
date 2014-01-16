@@ -49,16 +49,16 @@ public class FileSystemTasks {
         createFile(file, Arrays.asList(content.split("\n")));
     }
 
-    public void copyFile(String source, String target) {
-        System.out.println("\tcopying file " + Paths.get(source).getFileName());
-        
-        try(InputStream in = getClass().getClassLoader().getResourceAsStream(source))  {
-        	Files.copy(in, workingDirectory.resolve(".gitignore"), StandardCopyOption.REPLACE_EXISTING);
+    public void copyFile(String resource) {
+        System.out.println("\tcopying file " + Paths.get(resource).getFileName());
+
+        try (InputStream in = getClass().getClassLoader().getResourceAsStream(resource)) {
+            Files.copy(in, workingDirectory.resolve(resource), StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
-            throw new IllegalStateException("Could not copy file " + source, e);
+            throw new IllegalStateException("Could not copy file " + resource, e);
         }
     }
-    
+
     public String getWorkingDirectory() {
         return this.workingDirectory.toAbsolutePath().getParent().getFileName().toString();
     }

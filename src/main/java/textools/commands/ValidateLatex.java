@@ -43,13 +43,13 @@ public class ValidateLatex implements Command {
         for (int lineNumber = 1; lineNumber <= lines.size(); lineNumber++) {
             String line = lines.get(lineNumber - 1);
 
-			// only validate if line is not commented out
-			if(!line.startsWith("%")) {
-	            spaceInFrontOfReferencesInsteadOfTilde(texFile, lineNumber, line);
-	            spaceInFrontOfFootnote(texFile, lineNumber, line);
-	            lineStartsWithFootnote(texFile, lineNumber, line);
-	            spaceInFrontOfLabel(texFile, lineNumber, line);
-			}
+            // only validate if line is not commented out
+            if (!line.startsWith("%")) {
+                spaceInFrontOfReferencesInsteadOfTilde(texFile, lineNumber, line);
+                spaceInFrontOfFootnote(texFile, lineNumber, line);
+                lineStartsWithFootnote(texFile, lineNumber, line);
+                spaceInFrontOfLabel(texFile, lineNumber, line);
+            }
         }
     }
 

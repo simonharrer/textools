@@ -17,6 +17,6 @@ public class CreateGitignore implements Command {
 
     @Override
     public void execute() {
-        new FileSystemTasks().copyFile("tex.gitignore");
+        new FileSystemTasks().copyFile(".gitignore");
     }
 }
