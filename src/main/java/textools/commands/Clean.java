@@ -52,8 +52,7 @@ public class Clean implements Command {
                     }
                 }
             } catch (IOException e) {
-                throw new IllegalStateException(
-                        "error during deletion of files", e);
+                throw new IllegalStateException("error during deletion of files", e);
             }
         }
     }
