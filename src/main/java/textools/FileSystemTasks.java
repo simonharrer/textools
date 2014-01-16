@@ -1,6 +1,7 @@
 package textools;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
@@ -48,6 +49,16 @@ public class FileSystemTasks {
         createFile(file, Arrays.asList(content.split("\n")));
     }
 
+    public void copyFile(String source) {
+        System.out.println("\tcopying file " + Paths.get(source).getFileName());
+        
+        try(InputStream in = getClass().getClassLoader().getResourceAsStream(source))  {
+        	Files.copy(in, workingDirectory.resolve(".gitignore"), StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            throw new IllegalStateException("Could not copy file " + source, e);
+        }
+    }
+    
     public String getWorkingDirectory() {
         return this.workingDirectory.toAbsolutePath().getParent().getFileName().toString();
     }
