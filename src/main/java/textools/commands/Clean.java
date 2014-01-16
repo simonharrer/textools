@@ -29,19 +29,19 @@ public class Clean implements Command {
 
     @Override
     public void execute() {
-    	List<String> globExpressions = new ArrayList<String>();
-        
+        List<String> globExpressions = new ArrayList<String>();
+
         List<String> lines = readFile("tex.gitignore");
-        
+
         for (int lineNumber = 1; lineNumber <= lines.size(); lineNumber++) {
             String line = lines.get(lineNumber - 1);
 
-			// ignore uncommented lines
-			if(!line.startsWith("#")) {
-				globExpressions.add(line);
-			}
+            // ignore uncommented lines
+            if (!line.startsWith("#")) {
+                globExpressions.add(line);
+            }
         }
-        
+
         FileSystemTasks fileSystemTasks = new FileSystemTasks();
 
         for (String globExpression : globExpressions) {
@@ -52,23 +52,24 @@ public class Clean implements Command {
                     }
                 }
             } catch (IOException e) {
-                throw new IllegalStateException("error during deletion of files", e);
+                throw new IllegalStateException(
+                        "error during deletion of files", e);
             }
         }
     }
-    
+
     private List<String> readFile(String file) {
-    	List<String> lines = new ArrayList<String>();
-    	
-    	try(InputStream in = getClass().getClassLoader().getResourceAsStream(file)) {
+        List<String> lines = new ArrayList<String>();
+
+        try (InputStream in = getClass().getClassLoader().getResourceAsStream(file)) {
             BufferedReader reader = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8));
-            
+
             String line;
             while ((line = reader.readLine()) != null) {
-            	// no empty lines
-            	if(!line.isEmpty()) {
-            		lines.add(line);
-            	}
+                // no empty lines
+                if (!line.isEmpty()) {
+                    lines.add(line);
+                }
             }
             return lines;
         } catch (IOException e) {
