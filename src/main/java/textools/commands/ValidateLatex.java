@@ -45,31 +45,35 @@ public class ValidateLatex implements Command {
 
 			// only validate if line is not commented out
 			if(!line.startsWith("%")) {
-				spaceInFrontOfReferencesInsteadOfTilde(texFile, lineNumber, line);
-				spaceInFrontOfFootnote(texFile, lineNumber, line);
-				spaceInFrontOfLabel(texFile, lineNumber, line);
+	            spaceInFrontOfReferencesInsteadOfTilde(texFile, lineNumber, line);
+	            spaceInFrontOfFootnote(texFile, lineNumber, line);
+	            lineStartsWithFootnote(texFile, lineNumber, line);
+	            spaceInFrontOfLabel(texFile, lineNumber, line);
 			}
+        }
+    }
+
+    private void lineStartsWithFootnote(Path texFile, int lineNumber, String line) {
+        if (line.startsWith("\\footnote")) {
+            System.out.format("[%s:%d] line starts with footnote%n", texFile, lineNumber);
         }
     }
 
     private void spaceInFrontOfLabel(Path texFile, int lineNumber, String line) {
         if (line.contains(" \\label")) {
-            System.out.format("[%s:%d] space in front of label%n",
-                    texFile, lineNumber);
+            System.out.format("[%s:%d] space in front of label%n", texFile, lineNumber);
         }
     }
 
     private void spaceInFrontOfFootnote(Path texFile, int lineNumber, String line) {
         if (line.contains(" \\footnote")) {
-            System.out.format("[%s:%d] space in front of footnote%n",
-                    texFile, lineNumber);
+            System.out.format("[%s:%d] space in front of footnote%n", texFile, lineNumber);
         }
     }
 
     private void spaceInFrontOfReferencesInsteadOfTilde(Path texFile, int lineNumber, String line) {
         if (line.contains(" \\ref")) {
-            System.out.format("[%s:%d] space in front of references instead of \"~\"%n",
-                    texFile, lineNumber);
+            System.out.format("[%s:%d] space in front of references instead of \"~\"%n", texFile, lineNumber);
         }
     }
 

@@ -49,7 +49,7 @@ public class FileSystemTasks {
         createFile(file, Arrays.asList(content.split("\n")));
     }
 
-    public void copyFile(String source) {
+    public void copyFile(String source, String target) {
         System.out.println("\tcopying file " + Paths.get(source).getFileName());
         
         try(InputStream in = getClass().getClassLoader().getResourceAsStream(source))  {
