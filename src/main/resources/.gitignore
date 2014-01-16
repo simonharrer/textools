@@ -76,3 +76,8 @@
 
 # xindy
 *.xdy
+
+# simons specials
+*.~
+*.tps
+*.bak
