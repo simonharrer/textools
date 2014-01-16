@@ -30,14 +30,22 @@ public class ValidateLatex implements Command {
     public void execute() {
         List<Path> texFiles = new FileSystemTasks().getFilesByExtension(".tex");
         for (Path texFile : texFiles) {
-            List<String> lines = readFile(texFile);
-            for (int lineNumber = 1; lineNumber <= lines.size(); lineNumber++) {
-                String line = lines.get(lineNumber - 1);
-
-                spaceInFrontOfReferencesInsteadOfTilde(texFile, lineNumber, line);
-                spaceInFrontOfFootnote(texFile, lineNumber, line);
-                spaceInFrontOfLabel(texFile, lineNumber, line);
+            try {
+                validateTexFile(texFile);
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
             }
+        }
+    }
+
+    private void validateTexFile(Path texFile) {
+        List<String> lines = readFile(texFile);
+        for (int lineNumber = 1; lineNumber <= lines.size(); lineNumber++) {
+            String line = lines.get(lineNumber - 1);
+
+            spaceInFrontOfReferencesInsteadOfTilde(texFile, lineNumber, line);
+            spaceInFrontOfFootnote(texFile, lineNumber, line);
+            spaceInFrontOfLabel(texFile, lineNumber, line);
         }
     }
 

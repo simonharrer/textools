@@ -28,8 +28,12 @@ public class ValidateBibtex implements Command {
         List<Path> bibtexFiles = new FileSystemTasks().getFilesByExtension(".bib");
 
         for (Path bibtexFile : bibtexFiles) {
-            BibTeXDatabase database = parseBibtexFile(bibtexFile);
-            validate(database, bibtexFile);
+            try {
+                BibTeXDatabase database = parseBibtexFile(bibtexFile);
+                validate(database, bibtexFile);
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
         }
     }
 
@@ -43,7 +47,6 @@ public class ValidateBibtex implements Command {
                 validateManual(bibtexFile, entry);
             } else if ("INPROCEEDINGS".equals(entry.getType().toString())) {
                 validateInproceedings(bibtexFile, entry);
-
             }
         }
     }
@@ -91,6 +94,8 @@ public class ValidateBibtex implements Command {
             throw new IllegalStateException("could not read file " + bibtexFile, e);
         } catch (ParseException e) {
             throw new IllegalStateException("could not parse bibtex file " + bibtexFile + "\n" + e.getMessage(), e);
+        } catch (TokenMgrError e) {
+            throw new IllegalStateException("bib tex file " + bibtexFile + " is not well formed. Reason: " + e.getMessage());
         }
     }
 }
