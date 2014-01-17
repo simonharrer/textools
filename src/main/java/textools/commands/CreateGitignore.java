@@ -17,6 +17,7 @@ public class CreateGitignore implements Command {
 
     @Override
     public void execute() {
+        // cannot reference .gitignore files within a jar
         new FileSystemTasks().copyFile("tex.gitignore", ".gitignore");
     }
 }
