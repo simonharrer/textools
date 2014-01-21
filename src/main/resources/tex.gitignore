@@ -77,6 +77,10 @@
 # xindy
 *.xdy
 
+# changebar
+*.cb
+*.cb2
+
 # simons specials
 *.~
 *.tps
