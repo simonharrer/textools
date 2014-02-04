@@ -1,5 +1,8 @@
 # textools
 
+Textools provides CLI commands for the most commonly used tasks when working with [LaTeX](http://www.latex-project.org/),
+e.g., generating a `.gitignore` file, creating the final pdf and validating the `.tex` and `.bib` files.
+
 ## Installation
 
 Requires JDK 7 with JAVA_HOME set to the JDK path!
@@ -32,11 +35,12 @@ Requires JDK 7 with JAVA_HOME set to the JDK path!
 
 ## Authors
 
-Simon Harrer
+[Simon Harrer](mailto:simon.harrer@gmail.com)
 
 ## Contribute
 
-- Fork
-- Create feature branch
-- Create commits
-- Create pull request
+    10 Fork
+    20 Create feature branch
+    30 Create commits
+    40 Create pull request
+    GOTO 10
