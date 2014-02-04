@@ -11,7 +11,7 @@ import java.util.List;
 
 public class FileSystemTasks {
 
-    private Path workingDirectory = Paths.get(".");
+    private final Path workingDirectory = Paths.get(".");
 
     public void deleteFile(Path path) {
         if (!Files.exists(path)) {
@@ -80,7 +80,7 @@ public class FileSystemTasks {
         try {
             Files.walkFileTree(workingDirectory, new SimpleFileVisitor<Path>() {
                 @Override
-                public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+                public FileVisitResult visitFile(Path file, BasicFileAttributes attributes) throws IOException {
                     if (file.getFileName().toString().endsWith(fileExtension)) {
                         result.add(file);
                     }

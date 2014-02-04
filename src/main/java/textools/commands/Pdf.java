@@ -12,7 +12,7 @@ import static textools.ConsoleTasks.executeWithLog;
 
 public class Pdf implements Command {
 
-    public static final String TEXTOOLS_PDF_LOG = "textools-pdf.log";
+    private static final String TEXTOOLS_PDF_LOG = "textools-pdf.log";
 
     @Override
     public String getName() {

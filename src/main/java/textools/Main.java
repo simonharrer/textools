@@ -6,7 +6,7 @@ import java.io.IOException;
 
 public class Main {
 
-    public static final Command DEFAULT = new Help();
+    private static final Command DEFAULT = new Help();
 
     public static final Command[] COMMANDS = {
             new CreateGitignore(),

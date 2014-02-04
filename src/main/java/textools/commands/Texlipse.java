@@ -15,8 +15,8 @@ import static textools.Constants.NOT_FOUND;
 
 public class Texlipse implements Command {
 
-    public static final String TEXLIPSE_FILE = ".texlipse";
-    public static final String ECLIPSE_PROJECT_FILE = ".project";
+    private static final String TEXLIPSE_FILE = ".texlipse";
+    private static final String ECLIPSE_PROJECT_FILE = ".project";
 
     @Override
     public String getName() {
@@ -78,13 +78,13 @@ public class Texlipse implements Command {
 
     public static String getMainTexFile(Path workingDirectory) {
 
-        Path texclipseFile = workingDirectory.resolve(TEXLIPSE_FILE);
-        if (!Files.exists(texclipseFile)) {
+        Path texlipseFile = workingDirectory.resolve(TEXLIPSE_FILE);
+        if (!Files.exists(texlipseFile)) {
             return NOT_FOUND;
         }
 
         try {
-            List<String> lines = Files.readAllLines(texclipseFile, StandardCharsets.UTF_8);
+            List<String> lines = Files.readAllLines(texlipseFile, StandardCharsets.UTF_8);
             for (String line : lines) {
                 if (line.startsWith("mainTexFile")) {
                     return line.split("=")[1].trim();

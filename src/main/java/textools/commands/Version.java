@@ -7,7 +7,7 @@ import textools.Command;
  */
 public class Version implements Command {
 
-    public static final String VERSION = "0.0.1";
+    private static final String VERSION = "0.0.1";
 
     @Override
     public String getName() {
