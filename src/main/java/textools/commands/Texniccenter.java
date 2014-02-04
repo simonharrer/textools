@@ -71,6 +71,6 @@ public class Texniccenter implements Command {
             }
         }
 
-        return null;
+        throw new IOException("file not found");
     }
 }

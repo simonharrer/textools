@@ -32,7 +32,8 @@ public class Main {
         try {
             command.execute();
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            System.out.println(e.getMessage());
+            System.err.println(e);
         }
     }
 

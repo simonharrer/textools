@@ -27,6 +27,7 @@ public class Pdf implements Command {
     @Override
     public void execute() {
         String mainLatexFile = getMainLatexFileWithoutExtension();
+        System.out.println("Using " + mainLatexFile);
 
         new FileSystemTasks().deleteFile(Paths.get(TEXTOOLS_PDF_LOG));
 
