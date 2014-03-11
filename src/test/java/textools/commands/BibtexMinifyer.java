@@ -13,35 +13,13 @@ public class BibtexMinifyer {
 
     @Test
     public void testMinifyAuthorNames() {
-        assertEquals("Simon Harrer", abbreviateAuthor("Simon Harrer"));
-        assertEquals("Simon Harrer and others", abbreviateAuthor("Simon Harrer and others"));
-        assertEquals("Simon Harrer and others", abbreviateAuthor("Simon Harrer and Jörg Lenhard"));
-        assertEquals("Simon Harrer and others", abbreviateAuthor("Simon Harrer and Jörg Lenhard and Guido Wirtz"));
+        assertEquals("Simon Harrer", new MinifyBibtex().abbreviateAuthor("Simon Harrer"));
+        assertEquals("Simon Harrer and others", new MinifyBibtex().abbreviateAuthor("Simon Harrer and others"));
+        assertEquals("Simon Harrer and others", new MinifyBibtex().abbreviateAuthor("Simon Harrer and Jörg Lenhard"));
+        assertEquals("Simon Harrer and others", new MinifyBibtex().abbreviateAuthor("Simon Harrer and Jörg Lenhard and Guido Wirtz"));
     }
 
-    private String abbreviateAuthor(String author) {
-        // single author
-        String authorSeparator = " and ";
 
-        if(!author.contains(authorSeparator)) {
-            return author;
-        }
-
-        String[] authors = author.split(authorSeparator);
-
-        // trim authors (remove or let it in? is some magic...)
-        for(int i = 0; i < authors.length; i++){
-            authors[i] = authors[i].trim();
-        }
-
-        // already abbreviated
-        if("others".equals(authors[authors.length - 1]) && authors.length == 2) {
-            return author;
-        }
-
-        // abbreviate
-        return authors[0] + authorSeparator + "others";
-    }
 
     @Test
     public void testMinifyInproceedings() throws IOException, ParseException {
@@ -66,7 +44,7 @@ public class BibtexMinifyer {
                 "  year = {2012}\n" +
                 "}";
 
-        assertEquals(minifiedEntry, minifyBibtexEntry(bibtexEntry));
+        assertEquals(minifiedEntry, minifyDatabase(bibtexEntry));
     }
 
     @Test
@@ -92,43 +70,13 @@ public class BibtexMinifyer {
                 "  year = {2012}\n" +
                 "}";
 
-        assertEquals(minifiedEntry, minifyBibtexEntry(bibtexEntry));
+        assertEquals(minifiedEntry, minifyDatabase(bibtexEntry));
     }
 
-    private String minifyBibtexEntry(String bibtexEntry) throws IOException, ParseException {
+    public String minifyDatabase(String input) throws IOException, ParseException {
+        BibTeXDatabase database = new BibTeXParser().parse(new StringReader(input));
 
-        BibTeXDatabase database = new BibTeXParser().parse(new StringReader(bibtexEntry));
-
-        for(BibTeXEntry entry : database.getEntries().values()) {
-
-            if ("TECHREPORT".equals(entry.getType().toString())) {
-
-                Set<String> techrepKeys = new HashSet<>();
-                techrepKeys.add("author");
-                techrepKeys.add("title");
-                techrepKeys.add("institution");
-                techrepKeys.add("year");
-
-                minify(entry, techrepKeys);
-            } else if ("INPROCEEDINGS".equals(entry.getType().toString())) {
-
-                Set<String> inproceedingKeys = new HashSet<>();
-                inproceedingKeys.add("author");
-                inproceedingKeys.add("title");
-                inproceedingKeys.add("booktitle");
-                inproceedingKeys.add("year");
-
-                minify(entry, inproceedingKeys);
-            }
-
-            String author = entry.getField(new Key("author")).toUserString();
-            String abbreviatedAuthor = abbreviateAuthor(author);
-
-            if(!author.equals(abbreviatedAuthor)) {
-                //entry.removeField(new Key("author"));
-                entry.addField(new Key("author"), new StringValue(abbreviatedAuthor, StringValue.Style.BRACED));
-            }
-        }
+        new MinifyBibtex().minifyDatabase(database);
 
         StringWriter writer = new StringWriter();
         BibTeXFormatter bibTeXFormatter = new BibTeXFormatter();
@@ -138,18 +86,6 @@ public class BibtexMinifyer {
         return writer.toString();
     }
 
-    private void minify(BibTeXEntry entry, Set<String> requiredKeys) {
-        Set<Key> keysToRemove = new HashSet<>();
 
-        for(Key key : entry.getFields().keySet()) {
-            if(!requiredKeys.contains(key.getValue())) {
-                keysToRemove.add(key);
-            }
-        }
-
-        for(Key key : keysToRemove) {
-            entry.removeField(key);
-        }
-    }
 
 }

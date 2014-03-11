@@ -16,6 +16,7 @@ public class Main {
             new Validate(),
             new ValidateBibtex(),
             new ValidateLatex(),
+            new MinifyBibtex(),
             new Pdf(),
             new Version(),
             DEFAULT
