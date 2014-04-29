@@ -1,12 +1,7 @@
 package textools.commands;
 
-import org.jbibtex.*;
 import org.junit.Assert;
 import org.junit.Test;
-
-import java.io.*;
-
-import static org.junit.Assert.assertEquals;
 
 public class MinifyBibtexAuthorsTests {
 
