@@ -23,17 +23,18 @@ Requires JDK 7 with JAVA_HOME set to the JDK path!
 
     textools [command]
 
-     create-gitignore   creates a latex project specific .gitignore file
-     clean              Removes all generated files during a tex build
-     texlipse           generates texlipse project files
-     texniccenter       generates the texniccenter project files
-     validate           executes validate-latex and validate-bibtex commands in sequence
-     validate-bibtex    validates all .bib files for the existence of certain fields
-     validate-latex     validates .tex files
-     minify-bibtex      abbreviates authors and removes optional keys in bibtex entries
-     pdf                creates pdf with pdflatex, including bibtex; logs to textools-pdf.log
-     version            prints the current version
-     help               prints usage information
+     create-gitignore             creates a latex project specific .gitignore file
+     clean                        Removes all generated files during a tex build
+     texlipse                     generates texlipse project files
+     texniccenter                 generates the texniccenter project files
+     validate                     executes validate-latex and validate-bibtex commands in sequence
+     validate-bibtex              validates all .bib files for the existence of certain fields
+     validate-latex               validates .tex files
+     minify-bibtex-optionals      removes optional keys in bibtex entries
+     minify-bibtex-authors        replace additional authors with et al. in bibtex entries
+     pdf                          creates pdf with pdflatex, including bibtex; logs to textools-pdf.log
+     version                      prints the current version
+     help                         prints usage information
 
 ## Authors
 
