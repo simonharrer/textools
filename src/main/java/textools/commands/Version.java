@@ -2,12 +2,13 @@ package textools.commands;
 
 import textools.Command;
 
+import java.util.Properties;
+import java.util.ResourceBundle;
+
 /**
  * Prints the current version of textools on the console.
  */
 public class Version implements Command {
-
-    private static final String VERSION = "0.0.1";
 
     @Override
     public String getName() {
@@ -21,7 +22,8 @@ public class Version implements Command {
 
     @Override
     public void execute() {
-        System.out.println(VERSION);
+        System.out.println("Version: " + ResourceBundle.getBundle("textools").getString("version"));
+        System.out.println("Build Date: " + ResourceBundle.getBundle("textools").getString("build.date"));
     }
 
 }

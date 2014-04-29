@@ -9,6 +9,14 @@ repositories {
     mavenCentral()
 }
 
+import org.apache.tools.ant.filters.*
+
+processResources {
+    filter ReplaceTokens, tokens: [
+            "build.date": new Date().toString()
+    ]
+}
+
 dependencies {
     compile 'org.jbibtex:jbibtex:1.0.8'
     testCompile 'junit:junit:4.11'
