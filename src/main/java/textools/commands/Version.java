@@ -2,7 +2,6 @@ package textools.commands;
 
 import textools.Command;
 
-import java.util.Properties;
 import java.util.ResourceBundle;
 
 /**
