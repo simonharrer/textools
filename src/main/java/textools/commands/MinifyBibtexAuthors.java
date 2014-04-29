@@ -12,18 +12,16 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-/**
- * Created by sh on 11.03.14.
- */
-public class MinifyBibtex implements Command {
+public class MinifyBibtexAuthors implements Command {
+
     @Override
     public String getName() {
-        return "minify-bibtex";
+        return "minify-bibtex-authors";
     }
 
     @Override
     public String getDescription() {
-        return "abbreviates authors and removes optional keys in bibtex entries";
+        return "replace additional authors with et al. in bibtex entries";
     }
 
     @Override
@@ -46,26 +44,6 @@ public class MinifyBibtex implements Command {
     public void minifyDatabase(BibTeXDatabase database) {
         for (BibTeXEntry entry : database.getEntries().values()) {
 
-            if ("TECHREPORT".equals(entry.getType().toString())) {
-
-                Set<String> techrepKeys = new HashSet<>();
-                techrepKeys.add("author");
-                techrepKeys.add("title");
-                techrepKeys.add("institution");
-                techrepKeys.add("year");
-
-                minifyEntry(entry, techrepKeys);
-            } else if ("INPROCEEDINGS".equals(entry.getType().toString())) {
-
-                Set<String> inproceedingKeys = new HashSet<>();
-                inproceedingKeys.add("author");
-                inproceedingKeys.add("title");
-                inproceedingKeys.add("booktitle");
-                inproceedingKeys.add("year");
-
-                minifyEntry(entry, inproceedingKeys);
-            }
-
             String author = entry.getField(new Key("author")).toUserString();
             String abbreviatedAuthor = abbreviateAuthor(author);
 
@@ -74,21 +52,6 @@ public class MinifyBibtex implements Command {
                 System.out.println("\tMinifying " + entry.getKey() + ": abbreviating author to " + abbreviatedAuthor);
                 entry.addField(new Key("author"), new StringValue(abbreviatedAuthor, StringValue.Style.BRACED));
             }
-        }
-    }
-
-    private void minifyEntry(BibTeXEntry entry, Set<String> requiredKeys) {
-        Set<Key> keysToRemove = new HashSet<>();
-
-        for (Key key : entry.getFields().keySet()) {
-            if (!requiredKeys.contains(key.getValue())) {
-                keysToRemove.add(key);
-            }
-        }
-
-        for (Key key : keysToRemove) {
-            System.out.println("\tMinifying " + entry.getKey() + ": removing [" + key + "]");
-            entry.removeField(key);
         }
     }
 

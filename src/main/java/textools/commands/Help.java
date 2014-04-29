@@ -6,7 +6,7 @@ import static textools.Main.COMMANDS;
 
 public class Help implements Command {
 
-    private static final int COMMAND_SHORT_LENGTH = 20;
+    private static final int COMMAND_SHORT_LENGTH = 30;
 
     @Override
     public String getName() {

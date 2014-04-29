@@ -1,25 +1,18 @@
 package textools.commands;
 
-import org.jbibtex.*;
+import org.jbibtex.BibTeXDatabase;
+import org.jbibtex.BibTeXFormatter;
+import org.jbibtex.BibTeXParser;
+import org.jbibtex.ParseException;
 import org.junit.Test;
 
-import java.io.*;
-import java.util.HashSet;
-import java.util.Set;
+import java.io.IOException;
+import java.io.StringReader;
+import java.io.StringWriter;
 
 import static org.junit.Assert.assertEquals;
 
-public class BibtexMinifyer {
-
-    @Test
-    public void testMinifyAuthorNames() {
-        assertEquals("Simon Harrer", new MinifyBibtex().abbreviateAuthor("Simon Harrer"));
-        assertEquals("Simon Harrer and others", new MinifyBibtex().abbreviateAuthor("Simon Harrer and others"));
-        assertEquals("Simon Harrer and others", new MinifyBibtex().abbreviateAuthor("Simon Harrer and Jörg Lenhard"));
-        assertEquals("Simon Harrer and others", new MinifyBibtex().abbreviateAuthor("Simon Harrer and Jörg Lenhard and Guido Wirtz"));
-    }
-
-
+public class MinifyBibtexOptionalsTests {
 
     @Test
     public void testMinifyInproceedings() throws IOException, ParseException {
@@ -37,7 +30,7 @@ public class BibtexMinifyer {
 
 
         String minifiedEntry= "@INPROCEEDINGS{Harrer2012BPELConformancein,\n" +
-                "  author = {Simon Harrer and others},\n" +
+                "  author = {Simon Harrer and Jörg Lenhard and Guido Wirtz},\n" +
                 "  title = {{BPEL Conformance in Open Source Engines}},\n" +
                 "  booktitle = {Proceedings of the 5th {IEEE} International Conference on Service-Oriented\n" +
                 "    Computing and Applications {(SOCA'12)}, Taipei, Taiwan},\n" +
@@ -64,7 +57,7 @@ public class BibtexMinifyer {
                 "}";
 
         String minifiedEntry = "@TECHREPORT{Harrer2012BetsyBPELEngine,\n" +
-                "  author = {Harrer, Simon and others},\n" +
+                "  author = {Harrer, Simon and Lenhard, Jörg},\n" +
                 "  title = {{Betsy--A BPEL Engine Test System}},\n" +
                 "  institution = {Otto-Friedrich Universität Bamberg},\n" +
                 "  year = {2012}\n" +
@@ -76,7 +69,7 @@ public class BibtexMinifyer {
     public String minifyDatabase(String input) throws IOException, ParseException {
         BibTeXDatabase database = new BibTeXParser().parse(new StringReader(input));
 
-        new MinifyBibtex().minifyDatabase(database);
+        new MinifyBibtexOptionals().minifyDatabase(database);
 
         StringWriter writer = new StringWriter();
         BibTeXFormatter bibTeXFormatter = new BibTeXFormatter();
@@ -85,7 +78,5 @@ public class BibtexMinifyer {
 
         return writer.toString();
     }
-
-
 
 }
