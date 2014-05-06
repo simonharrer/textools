@@ -85,3 +85,6 @@
 *.~
 *.tps
 *.bak
+
+# temporary files of ms office
+~*
