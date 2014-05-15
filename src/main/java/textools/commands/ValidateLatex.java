@@ -7,7 +7,11 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Validates all .tex files within the current directory and its descendants.
@@ -38,6 +42,38 @@ public class ValidateLatex implements Command {
         }
     }
 
+    private static Map<String, String> getRules() {
+        Map<String, String> rules = new HashMap<>();
+        rules.put("^\\\\footnote", "line starts with footnote");
+        rules.put(" \\\\label", "space in front of label");
+        rules.put(" \\\\footnote", "space in front of footnote");
+        rules.put(" \\\\ref", "space in front of references instead of \"~\"");
+        rules.put("\\.~?\\\\cite", "use cite before the dot");
+
+        rules.put("\\b(from|in|and|with|see|In|From)[~ ]+\\\\cite", "instead of 'in [x]' use 'Harrer et al. [x]'");
+        rules.put("(table|figure|section|listing)~\\\\ref", "capitalize Table, Figure, Listing or Section");
+        rules.put("[0-9]%", "% sign after number is normally invalid");
+
+        rules.put("e\\.g\\.[^,]", "e.g. should be followed by a comma");
+        rules.put("i\\.e\\.[^,]", "i.e. should be followed by a comma");
+
+        rules.put("cf\\.[^\\\\]", "use 'cf.\\ ' when using cf.");
+
+        rules.put("(all|the|of) [0-9][^0-9]","write the numbers out, e.g., one out of three");
+
+        return rules;
+    }
+
+    private static Map<Pattern, String> getCompiledRules() {
+        Map<Pattern, String> rules = new HashMap<>();
+        for(Map.Entry<String,String> entry : getRules().entrySet()) {
+            rules.put(Pattern.compile(entry.getKey()), entry.getValue());
+        }
+        return rules;
+    }
+
+    public static final Map<Pattern, String> COMPILED_RULES = getCompiledRules();
+
     private void validateTexFile(Path texFile) {
         List<String> lines = readFile(texFile);
         for (int lineNumber = 1; lineNumber <= lines.size(); lineNumber++) {
@@ -45,35 +81,17 @@ public class ValidateLatex implements Command {
 
             // only validate if line is not commented out
             if (!line.startsWith("%")) {
-                spaceInFrontOfReferencesInsteadOfTilde(texFile, lineNumber, line);
-                spaceInFrontOfFootnote(texFile, lineNumber, line);
-                lineStartsWithFootnote(texFile, lineNumber, line);
-                spaceInFrontOfLabel(texFile, lineNumber, line);
+                for(Map.Entry<Pattern, String> entry : COMPILED_RULES.entrySet()) {
+                    applyPattern(texFile, lineNumber, line, entry.getKey(), entry.getValue());
+                }
             }
         }
     }
 
-    private void lineStartsWithFootnote(Path texFile, int lineNumber, String line) {
-        if (line.startsWith("\\footnote")) {
-            System.out.format("[%s:%d] line starts with footnote%n", texFile, lineNumber);
-        }
-    }
-
-    private void spaceInFrontOfLabel(Path texFile, int lineNumber, String line) {
-        if (line.contains(" \\label")) {
-            System.out.format("[%s:%d] space in front of label%n", texFile, lineNumber);
-        }
-    }
-
-    private void spaceInFrontOfFootnote(Path texFile, int lineNumber, String line) {
-        if (line.contains(" \\footnote")) {
-            System.out.format("[%s:%d] space in front of footnote%n", texFile, lineNumber);
-        }
-    }
-
-    private void spaceInFrontOfReferencesInsteadOfTilde(Path texFile, int lineNumber, String line) {
-        if (line.contains(" \\ref")) {
-            System.out.format("[%s:%d] space in front of references instead of \"~\"%n", texFile, lineNumber);
+    private void applyPattern(Path texFile, int lineNumber, String line, Pattern pattern, String message) {
+        Matcher matcher = pattern.matcher(line);
+        while (matcher.find()) {
+            System.out.format("[%s:%d,%d] %s%n", texFile, lineNumber, matcher.start(), message);
         }
     }
 
