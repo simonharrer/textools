@@ -4,13 +4,14 @@ import textools.Command;
 import textools.FileSystemTasks;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
+import java.io.InputStream;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class Clean implements Command {
 
@@ -28,7 +29,9 @@ public class Clean implements Command {
     public void execute() {
         List<String> globExpressions = new ArrayList<>();
 
-        List<String> lines = readFile("tex.gitignore");
+        // TODO search for .gitignore in current directory. if it does not find it, use internal one
+
+        List<String> lines = getGitIgnoreFileContents();
 
         for (int lineNumber = 1; lineNumber <= lines.size(); lineNumber++) {
             String line = lines.get(lineNumber - 1);
@@ -54,11 +57,31 @@ public class Clean implements Command {
         }
     }
 
-    private List<String> readFile(String file) {
+    private List<String> getGitIgnoreFileContents() {
         try {
-            return Files.readAllLines(Paths.get(file), StandardCharsets.UTF_8);
-        } catch (IOException e) {
-            throw new IllegalStateException("could not read in file " + file, e);
+            return new FileSystemTasks().readFile(".gitignore");
+        } catch (Exception e) {
+            return readFromResourceStream("/tex.gitignore");
         }
     }
+
+    private List<String> readFromResourceStream(String source) {
+        List<String> result = new ArrayList<>();
+        try (InputStream in = getClass().getResourceAsStream(source)) {
+
+            if (in == null) {
+                throw new IllegalStateException("Cannot find resource " + source);
+            }
+
+            Scanner scanner = new Scanner(in);
+            while(scanner.hasNextLine()) {
+                result.add(scanner.nextLine());
+            }
+
+        } catch (IOException e) {
+            throw new IllegalStateException("could not read from stream " + source, e);
+        }
+        return result;
+    }
+
 }

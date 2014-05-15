@@ -54,8 +54,8 @@ public class ValidateLatex implements Command {
         rules.put("(table|figure|section|listing)~\\\\ref", "capitalize Table, Figure, Listing or Section");
         rules.put("[0-9]%", "% sign after number is normally invalid");
 
-        rules.put("e\\.g\\.[^,]", "e.g. should be followed by a comma");
-        rules.put("i\\.e\\.[^,]", "i.e. should be followed by a comma");
+        rules.put("e\\.g\\.[^,]", "e.g. should be followed by a comma: 'e.g.,'");
+        rules.put("i\\.e\\.[^,]", "i.e. should be followed by a comma: 'i.e.,'");
 
         rules.put("cf\\.[^\\\\]", "use 'cf.\\ ' when using cf.");
 
@@ -97,7 +97,7 @@ public class ValidateLatex implements Command {
     private void applyPattern(Path texFile, int lineNumber, String line, Pattern pattern, String message) {
         Matcher matcher = pattern.matcher(line);
         while (matcher.find()) {
-            System.out.format("[%s:%d,%d] %s%n", texFile, lineNumber, matcher.start(), message);
+            System.out.format("%s#%d,%d %s%n", texFile, lineNumber, matcher.start(), message);
         }
     }
 

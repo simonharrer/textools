@@ -13,6 +13,15 @@ public class FileSystemTasks {
 
     private final Path workingDirectory = Paths.get(".");
 
+    public List<String> readFile(String file) {
+        try {
+            Path path = workingDirectory.resolve(file);
+            return Files.readAllLines(path, StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            throw new IllegalStateException("could not read in file " + file, e);
+        }
+    }
+
     public void deleteFile(Path path) {
         if (!Files.exists(path)) {
             // do nothing when file does not exist
@@ -53,7 +62,7 @@ public class FileSystemTasks {
         Path targetPath = workingDirectory.resolve(target);
         System.out.println("\tcopying file " + source + " to " + workingDirectory.relativize(targetPath));
 
-        try (InputStream in = getClass().getClassLoader().getResourceAsStream(source)) {
+        try (InputStream in = getClass().getResourceAsStream(source)) {
 
             if(in == null) {
                 throw new IllegalStateException("Cannot find resource " + source);
