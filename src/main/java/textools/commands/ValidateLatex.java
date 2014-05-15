@@ -61,6 +61,12 @@ public class ValidateLatex implements Command {
 
         rules.put("(all|the|of) [0-9][^0-9]","write the numbers out, e.g., one out of three");
 
+        rules.put("et\\. al\\.", "no dot after et, use it like that: 'et al.'");
+
+        rules.put("\\bnon[- ]", "join non with word, e.g., nonfunctional instead of non-functional or non functional");
+
+        rules.put("\\bteh\\b", "use 'the' instead");
+
         return rules;
     }
 
