@@ -82,7 +82,7 @@ public class FileSystemTasks {
                 @Override
                 public FileVisitResult visitFile(Path file, BasicFileAttributes attributes) throws IOException {
                     if (file.getFileName().toString().endsWith(fileExtension)) {
-                        result.add(file);
+                        result.add(workingDirectory.relativize(file));
                     }
                     return FileVisitResult.CONTINUE;
                 }
