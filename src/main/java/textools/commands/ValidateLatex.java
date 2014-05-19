@@ -47,8 +47,9 @@ public class ValidateLatex implements Command {
         rules.put("^\\\\footnote", "line starts with footnote");
         rules.put(" \\\\label", "space in front of label");
         rules.put(" \\\\footnote", "space in front of footnote");
-        rules.put(" \\\\ref", "space in front of references instead of \"~\"");
-        rules.put("\\.~?\\\\cite", "use cite before the dot");
+        rules.put(" \\\\ref", "use '~\\ref' instead of ' \\ref' to prevent bad line breaks");
+        //rules.put(" \\\\cite", "use '~\\cite' instead of ' \\cite' to prevent bad line breaks");
+        rules.put("(?<!et al)\\.~?\\\\cite", "use cite before the dot"); // use negative lookbehind in regex
 
         rules.put("\\b(from|in|and|with|see|In|From)[~ ]+\\\\cite", "instead of 'in [x]' use 'Harrer et al. [x]'");
         rules.put("(table|figure|section|listing)~\\\\ref", "capitalize Table, Figure, Listing or Section");
@@ -97,7 +98,7 @@ public class ValidateLatex implements Command {
     private void applyPattern(Path texFile, int lineNumber, String line, Pattern pattern, String message) {
         Matcher matcher = pattern.matcher(line);
         while (matcher.find()) {
-            System.out.format("%s#%d,%d %s%n", texFile, lineNumber, matcher.start(), message);
+            System.out.format("%s#%4d,%-4d %s%n", texFile, lineNumber, matcher.start(), message);
         }
     }
 
