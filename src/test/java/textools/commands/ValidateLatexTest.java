@@ -2,6 +2,7 @@ package textools.commands;
 
 import org.junit.Test;
 
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -16,9 +17,9 @@ public class ValidateLatexTest {
 
     @Test
     public void testRules() throws Exception {
-        List<String> lines = Files.readAllLines(Paths.get("src/test/resources/errors.tex"));
+        List<String> lines = Files.readAllLines(Paths.get("src/test/resources/errors.tex"), StandardCharsets.UTF_8);
 
-        Map<Pattern, String> compiledRules = ValidateLatex.getCompiledRules();
+        Map<Pattern, String> compiledRules = ValidateLatex.COMPILED_RULES;
 
         for (int i = 0; i < lines.size(); i++) {
             String line = lines.get(i);

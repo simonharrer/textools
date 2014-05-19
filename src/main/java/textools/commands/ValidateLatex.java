@@ -42,16 +42,16 @@ public class ValidateLatex implements Command {
         }
     }
 
-    static Map<String, String> getRules() {
+    private static Map<String, String> getRules() {
         Map<String, String> rules = new HashMap<>();
         rules.put("^\\\\footnote", "line starts with footnote");
         rules.put(" \\\\label", "space in front of label");
         rules.put(" \\\\footnote", "space in front of footnote");
         rules.put(" \\\\ref", "use '~\\ref' instead of ' \\ref' to prevent bad line breaks");
-        //rules.put(" \\\\cite", "use '~\\cite' instead of ' \\cite' to prevent bad line breaks");
+        rules.put(" \\\\cite", "use '~\\cite' instead of ' \\cite' to prevent bad line breaks");
         rules.put("(?<!et al)\\.~?\\\\cite", "use cite before the dot"); // use negative lookbehind in regex
 
-        rules.put("\\b(from|in|and|with|see|In|From)[~ ]+\\\\cite", "instead of 'in [x]' use 'Harrer et al. [x]'");
+        rules.put("\\b(from|in|and|with|see|In|From)~\\\\cite", "instead of 'in [x]' use 'Harrer et al. [x]'");
         rules.put("(table|figure|section|listing)~\\\\ref", "capitalize Table, Figure, Listing or Section");
         rules.put("[0-9]%", "% sign after number is normally invalid");
 
@@ -71,7 +71,7 @@ public class ValidateLatex implements Command {
         return rules;
     }
 
-    static Map<Pattern, String> getCompiledRules() {
+    private static Map<Pattern, String> getCompiledRules() {
         Map<Pattern, String> rules = new HashMap<>();
         for(Map.Entry<String,String> entry : getRules().entrySet()) {
             rules.put(Pattern.compile(entry.getKey()), entry.getValue());
