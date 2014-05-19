@@ -28,7 +28,7 @@ public class FileSystemTasks {
             return;
         }
 
-        System.out.println("\tdeleting file " + workingDirectory.resolve(path).getFileName());
+        System.out.println("\tdeleting " + workingDirectory.resolve(path).getFileName());
         try {
             Files.delete(workingDirectory.resolve(path));
         } catch (IOException e) {
@@ -37,7 +37,7 @@ public class FileSystemTasks {
     }
 
     public void createEmptyDirectory(String directory) {
-        System.out.println("\tcreating directory " + directory);
+        System.out.println("\tcreating " + directory);
         try {
             Files.createDirectories(workingDirectory.resolve(directory));
         } catch (IOException e) {
@@ -46,7 +46,7 @@ public class FileSystemTasks {
     }
 
     public void createFile(String file, List<String> lines) {
-        System.out.println("\tcreating file " + workingDirectory.resolve(file).getFileName() + " with " + lines.size() + " lines");
+        System.out.println("\tcreating " + workingDirectory.resolve(file).getFileName() + " with " + lines.size() + " lines");
         try {
             Files.write(workingDirectory.resolve(file), lines, StandardCharsets.UTF_8);
         } catch (IOException e) {
@@ -60,7 +60,7 @@ public class FileSystemTasks {
 
     public void copyFile(String source, String target) {
         Path targetPath = workingDirectory.resolve(target);
-        System.out.println("\tcopying file " + source + " to " + workingDirectory.relativize(targetPath));
+        System.out.println("\tcopying " + source + " to " + workingDirectory.relativize(targetPath));
 
         try (InputStream in = getClass().getResourceAsStream(source)) {
 

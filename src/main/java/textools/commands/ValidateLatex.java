@@ -42,7 +42,7 @@ public class ValidateLatex implements Command {
         }
     }
 
-    private static Map<String, String> getRules() {
+    static Map<String, String> getRules() {
         Map<String, String> rules = new HashMap<>();
         rules.put("^\\\\footnote", "line starts with footnote");
         rules.put(" \\\\label", "space in front of label");
@@ -71,7 +71,7 @@ public class ValidateLatex implements Command {
         return rules;
     }
 
-    private static Map<Pattern, String> getCompiledRules() {
+    static Map<Pattern, String> getCompiledRules() {
         Map<Pattern, String> rules = new HashMap<>();
         for(Map.Entry<String,String> entry : getRules().entrySet()) {
             rules.put(Pattern.compile(entry.getKey()), entry.getValue());

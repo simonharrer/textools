@@ -35,7 +35,7 @@ public class Main {
             command.execute();
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            System.err.println(e);
+            e.printStackTrace();
         }
     }
 
