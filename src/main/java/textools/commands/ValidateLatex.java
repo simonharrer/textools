@@ -68,6 +68,11 @@ public class ValidateLatex implements Command {
 
         rules.put("\\bteh\\b", "use 'the' instead");
 
+        rules.put("[ ],", "no space before a comma");
+        rules.put(",,", "no double comma");
+
+        rules.put("(In|in) order to", "instead of 'in order to' write 'to'");
+
         return rules;
     }
 

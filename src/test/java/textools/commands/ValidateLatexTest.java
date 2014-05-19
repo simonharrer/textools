@@ -5,9 +5,7 @@ import org.junit.Test;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -21,6 +19,8 @@ public class ValidateLatexTest {
 
         Map<Pattern, String> compiledRules = ValidateLatex.COMPILED_RULES;
 
+        Set<String> matchedRules = new HashSet<>();
+
         for (int i = 0; i < lines.size(); i++) {
             String line = lines.get(i);
 
@@ -30,11 +30,17 @@ public class ValidateLatexTest {
                 Matcher matcher = entry.getKey().matcher(line);
                 while (matcher.find()) {
                     violatedRules.add(entry.getValue());
+                    matchedRules.add(entry.getValue());
                 }
 
             }
 
             assertEquals("line #" + i + " violates rules " + violatedRules, 1, violatedRules.size());
         }
+
+        Set<String> untestedRules = new HashSet<>(compiledRules.values());
+        untestedRules.removeAll(matchedRules);
+
+        assertEquals(new HashSet<String>(), untestedRules);
     }
 }
