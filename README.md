@@ -1,4 +1,4 @@
-# textools
+# textools [![Build Status](https://travis-ci.org/simonharrer/textools.png?branch=master)](https://travis-ci.org/simonharrer/textools)
 
 Textools provides CLI commands for the most commonly used tasks when working with [LaTeX](http://www.latex-project.org/),
 e.g., generating a `.gitignore` file, creating the final pdf and validating the `.tex` and `.bib` files.
