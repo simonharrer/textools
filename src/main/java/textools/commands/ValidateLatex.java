@@ -44,7 +44,7 @@ public class ValidateLatex implements Command {
 
     private static Map<String, String> getRules() {
         Map<String, String> rules = new HashMap<>();
-        rules.put("^\\\\footnote", "line starts with footnote");
+        rules.put("^\\\\footnote(\\{|\\[)", "line starts with footnote");
         rules.put(" \\\\label", "space in front of label");
         rules.put(" \\\\footnote", "space in front of footnote");
         rules.put("[^~]\\\\ref", "use '~\\ref' to prevent bad line breaks");
@@ -55,30 +55,30 @@ public class ValidateLatex implements Command {
         rules.put("(table|figure|section|listing)~\\\\ref", "capitalize Table, Figure, Listing or Section");
         rules.put("[0-9]%", "% sign after number is normally invalid");
 
-        rules.put("e\\.g\\.[^,]", "e.g. should be followed by a comma: 'e.g.,'");
-        rules.put("i\\.e\\.[^,]", "i.e. should be followed by a comma: 'i.e.,'");
+        rules.put("e\\.g\\.[^,]", "use 'e.g.,' instead of 'e.g.'");
+        rules.put("i\\.e\\.[^,]", "use 'i.e.,' instead of 'i.e.'");
 
-        rules.put("cf\\.[^\\\\]", "use 'cf.\\ ' when using cf.");
+        rules.put("cf\\.[^\\\\]", "use 'cf.\\ ' instead of 'cf. '");
 
-        rules.put("(all|the|of) [0-9][^0-9]","write the numbers out, e.g., one out of three");
+        rules.put("(All|The|Of|all|the|of) [0-9][^0-9]", "write the numbers out, e.g., one out of three");
 
-        rules.put("et\\. al\\.", "no dot after et, use it like that: 'et al.'");
+        rules.put("et\\. al\\.", "use 'et al.' instead of 'et. al.'");
 
-        rules.put("\\bnon[- ]", "join non with word, e.g., nonfunctional instead of non-functional or non functional");
+        rules.put("\\b[Nn]on[- ]", "join non with word, e.g., nonfunctional instead of non-functional or non functional");
 
-        rules.put("\\bteh\\b", "use 'the' instead");
+        rules.put("\\b[Tt]eh\\b", "use 'the' instead of 'teh'");
 
         rules.put("[ ],", "no space before a comma");
         rules.put(",,", "no double comma");
 
-        rules.put("(In|in) order to", "instead of 'in order to' write 'to'");
+        rules.put("(In|in) order to", "instead of 'in order to' use 'to'");
 
         return rules;
     }
 
     private static Map<Pattern, String> getCompiledRules() {
         Map<Pattern, String> rules = new HashMap<>();
-        for(Map.Entry<String,String> entry : getRules().entrySet()) {
+        for (Map.Entry<String, String> entry : getRules().entrySet()) {
             rules.put(Pattern.compile(entry.getKey()), entry.getValue());
         }
         return rules;
@@ -93,7 +93,7 @@ public class ValidateLatex implements Command {
 
             // only validate if line is not commented out
             if (!line.startsWith("%")) {
-                for(Map.Entry<Pattern, String> entry : COMPILED_RULES.entrySet()) {
+                for (Map.Entry<Pattern, String> entry : COMPILED_RULES.entrySet()) {
                     applyPattern(texFile, lineNumber, line, entry.getKey(), entry.getValue());
                 }
             }
@@ -111,7 +111,7 @@ public class ValidateLatex implements Command {
         try {
             return Files.readAllLines(texFile, StandardCharsets.UTF_8);
         } catch (IOException e) {
-            throw new IllegalStateException("could not read in tex file " + texFile, e);
+            throw new IllegalStateException("could not read " + texFile + ": " + e.getMessage(), e);
         }
     }
 }
