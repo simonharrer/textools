@@ -1,7 +1,7 @@
 package textools.commands;
 
 import textools.Command;
-import textools.FileSystemTasks;
+import textools.tasks.FileSystemTasks;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -48,10 +48,10 @@ public class ValidateLatex implements Command {
         rules.put(" \\\\label", "space in front of label");
         rules.put(" \\\\footnote", "space in front of footnote");
         rules.put("[^~]\\\\ref", "use '~\\ref' to prevent bad line breaks");
-        rules.put("[^~]\\\\cite", "use '~\\cite' to prevent bad line breaks");
         rules.put("(?<!et al)\\.~?\\\\cite", "use cite before the dot"); // use negative lookbehind in regex
+        rules.put("[^~]\\\\cite", "use '~\\cite' to prevent bad line breaks");
 
-        rules.put("\\b(from|in|and|with|see|In|From)~\\\\cite", "instead of 'in [x]' use 'Harrer et al. [x]'");
+        rules.put("\\b(from|in|and|with|see|In|From|With|And|See)~\\\\cite", "instead of 'in [x]' use 'Harrer et al. [x]'");
         rules.put("(table|figure|section|listing)~\\\\ref", "capitalize Table, Figure, Listing or Section");
         rules.put("[0-9]%", "% sign after number is normally invalid");
 

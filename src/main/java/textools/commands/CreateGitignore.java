@@ -1,7 +1,7 @@
 package textools.commands;
 
 import textools.Command;
-import textools.FileSystemTasks;
+import textools.tasks.FileSystemTasks;
 
 public class CreateGitignore implements Command {
 

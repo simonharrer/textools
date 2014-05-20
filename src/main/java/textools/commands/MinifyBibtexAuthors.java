@@ -2,7 +2,7 @@ package textools.commands;
 
 import org.jbibtex.*;
 import textools.Command;
-import textools.FileSystemTasks;
+import textools.tasks.FileSystemTasks;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;

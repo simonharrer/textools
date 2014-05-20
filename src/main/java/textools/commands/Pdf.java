@@ -2,13 +2,13 @@ package textools.commands;
 
 import textools.Command;
 import textools.Constants;
-import textools.FileSystemTasks;
+import textools.tasks.FileSystemTasks;
 
 import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.List;
 
-import static textools.ConsoleTasks.executeWithLog;
+import static textools.tasks.ConsoleTasks.executeWithLog;
 
 public class Pdf implements Command {
 

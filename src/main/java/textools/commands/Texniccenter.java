@@ -1,7 +1,7 @@
 package textools.commands;
 
 import textools.Command;
-import textools.FileSystemTasks;
+import textools.tasks.FileSystemTasks;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -10,7 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 
-import static textools.ConsoleTasks.askString;
+import static textools.tasks.ConsoleTasks.askString;
 import static textools.Constants.NOT_FOUND;
 
 public class Texniccenter implements Command {

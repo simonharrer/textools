@@ -1,4 +1,4 @@
-package textools;
+package textools.tasks;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -32,7 +32,7 @@ public class FileSystemTasks {
         try {
             Files.delete(workingDirectory.resolve(path));
         } catch (IOException e) {
-            throw new IllegalStateException("could not delete file " + workingDirectory.resolve(path).getFileName(), e);
+            throw new IllegalStateException("could not delete " + workingDirectory.resolve(path).getFileName(), e);
         }
     }
 
@@ -41,7 +41,7 @@ public class FileSystemTasks {
         try {
             Files.createDirectories(workingDirectory.resolve(directory));
         } catch (IOException e) {
-            throw new IllegalStateException("could not create directory " + directory, e);
+            throw new IllegalStateException("could not create " + directory, e);
         }
     }
 
@@ -50,7 +50,7 @@ public class FileSystemTasks {
         try {
             Files.write(workingDirectory.resolve(file), lines, StandardCharsets.UTF_8);
         } catch (IOException e) {
-            throw new IllegalStateException("Could not create file " + file, e);
+            throw new IllegalStateException("Could not create " + file, e);
         }
     }
 
@@ -64,18 +64,18 @@ public class FileSystemTasks {
 
         try (InputStream in = getClass().getResourceAsStream(source)) {
 
-            if(in == null) {
+            if (in == null) {
                 throw new IllegalStateException("Cannot find resource " + source);
             }
 
             Files.copy(in, targetPath, StandardCopyOption.REPLACE_EXISTING);
 
-            if(!Files.exists(targetPath)){
-                throw new IllegalStateException("Target file " + targetPath + " must exist after copy");
+            if (!Files.exists(targetPath)) {
+                throw new IllegalStateException("Target " + targetPath + " must exist after copy");
             }
 
         } catch (IOException e) {
-            throw new IllegalStateException("Could not copy file " + source + " to " + target, e);
+            throw new IllegalStateException("Could not copy " + source + " to " + target, e);
         }
     }
 

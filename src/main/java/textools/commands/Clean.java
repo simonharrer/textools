@@ -1,7 +1,7 @@
 package textools.commands;
 
 import textools.Command;
-import textools.FileSystemTasks;
+import textools.tasks.FileSystemTasks;
 
 import java.io.IOException;
 import java.io.InputStream;

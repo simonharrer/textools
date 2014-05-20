@@ -1,4 +1,4 @@
-package textools;
+package textools.tasks;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
