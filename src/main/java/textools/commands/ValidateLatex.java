@@ -47,8 +47,8 @@ public class ValidateLatex implements Command {
         rules.put("^\\\\footnote", "line starts with footnote");
         rules.put(" \\\\label", "space in front of label");
         rules.put(" \\\\footnote", "space in front of footnote");
-        rules.put(" \\\\ref", "use '~\\ref' instead of ' \\ref' to prevent bad line breaks");
-        rules.put(" \\\\cite", "use '~\\cite' instead of ' \\cite' to prevent bad line breaks");
+        rules.put("[^~]\\\\ref", "use '~\\ref' to prevent bad line breaks");
+        rules.put("[^~]\\\\cite", "use '~\\cite' to prevent bad line breaks");
         rules.put("(?<!et al)\\.~?\\\\cite", "use cite before the dot"); // use negative lookbehind in regex
 
         rules.put("\\b(from|in|and|with|see|In|From)~\\\\cite", "instead of 'in [x]' use 'Harrer et al. [x]'");
