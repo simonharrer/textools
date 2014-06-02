@@ -19,6 +19,7 @@ public class Main {
             new MinifyBibtexOptionals(),
             new MinifyBibtexAuthors(),
             new Pdf(),
+            new PdfClean(),
             new Version(),
             DEFAULT
     };
