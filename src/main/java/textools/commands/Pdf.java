@@ -39,6 +39,9 @@ public class Pdf implements Command {
     }
 
     private void bibtex(String mainLatexFile) {
+    	if(mainLatexFile.contains(".tex")){
+    		mainLatexFile = mainLatexFile.substring(0,mainLatexFile.lastIndexOf(".tex"));
+    	}
         executeWithLog("bibtex " + mainLatexFile, TEXTOOLS_PDF_LOG);
     }
 
