@@ -33,6 +33,7 @@ Requires JDK 7 with JAVA_HOME set to the JDK path!
      minify-bibtex-optionals      removes optional keys in bibtex entries
      minify-bibtex-authors        replace additional authors with et al. in bibtex entries
      pdf                          creates pdf with pdflatex, including bibtex; logs to textools-pdf.log
+     pdfclean                     executes pdf and clean commands in sequence
      version                      prints the current version
      help                         prints usage information
 
