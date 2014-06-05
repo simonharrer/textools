@@ -1,8 +1,5 @@
 package textools.commands;
 
-import textools.Command;
-import textools.tasks.FileSystemTasks;
-
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -12,6 +9,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import textools.Command;
+import textools.tasks.FileSystemTasks;
 
 /**
  * Validates all .tex files within the current directory and its descendants.
@@ -52,7 +52,8 @@ public class ValidateLatex implements Command {
         rules.put("[^~]\\\\cite", "use '~\\cite' to prevent bad line breaks");
 
         rules.put("\\b(from|in|and|with|see|In|From|With|And|See)~\\\\cite", "instead of 'in [x]' use 'Harrer et al. [x]'");
-        rules.put("(table|figure|section|listing)~\\\\ref", "capitalize Table, Figure, Listing or Section");
+        rules.put("(table|figure|section|listing|chapter|theorem|corollary|definition)~\\\\ref",
+				"capitalize Table, Figure, Listing, Section, Chapter, Theorem, Corollary, Definition; use abbreviations: Table, Fig., Sect., Chap., Theorem, Corollary, Definition when used with numbers, e.g. Fig.3, Table 1, Theorem 2");
         rules.put("[0-9]%", "% sign after number is normally invalid");
 
         rules.put("e\\.g\\.[^,]", "use 'e.g.,' instead of 'e.g.'");
