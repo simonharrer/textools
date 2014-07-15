@@ -8,6 +8,7 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Scanner;
 
 public class FileSystemTasks {
 
@@ -58,11 +59,11 @@ public class FileSystemTasks {
         createFile(file, Arrays.asList(content.split("\n")));
     }
 
-    public void copyFile(String source, String target) {
+    public void copyResourceToFile(String source, String target) {
         Path targetPath = workingDirectory.resolve(target);
         System.out.println("\tcopying " + source + " to " + workingDirectory.relativize(targetPath));
 
-        try (InputStream in = getClass().getResourceAsStream(source)) {
+        try (InputStream in = getClass().getResourceAsStream("/" + source)) {
 
             if (in == null) {
                 throw new IllegalStateException("Cannot find resource " + source);
