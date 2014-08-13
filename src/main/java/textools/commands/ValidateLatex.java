@@ -73,6 +73,8 @@ public class ValidateLatex implements Command {
         rules.put(",,", "no double comma");
 
         rules.put("(In|in) order to", "instead of 'in order to' use 'to'");
+        
+        rules.put("behaviour", "Use the AE when possible: 'behavior'");
 
         return rules;
     }
