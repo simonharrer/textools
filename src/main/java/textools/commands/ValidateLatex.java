@@ -75,6 +75,8 @@ public class ValidateLatex implements Command {
         rules.put("(In|in) order to", "instead of 'in order to' use 'to'");
         
         rules.put("behaviour", "Use the AE when possible: 'behavior'");
+        
+        rules.put("all of the", "Instead of 'all of the' use 'all the'");
 
         return rules;
     }
