@@ -11,6 +11,7 @@ public class Main {
     public static final Command[] COMMANDS = {
             new CreateGitignore(),
             new Clean(),
+            new Cites(),
             new Texlipse(),
             new Texniccenter(),
             new Validate(),
