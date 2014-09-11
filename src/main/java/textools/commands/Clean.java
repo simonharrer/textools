@@ -48,7 +48,11 @@ public class Clean implements Command {
             try {
                 try (DirectoryStream<Path> stream = Files.newDirectoryStream(Paths.get("."), globExpression)) {
                     for (Path path : stream) {
-                        fileSystemTasks.deleteFile(path);
+                        try {
+                            fileSystemTasks.deleteFile(path);
+                        } catch (IllegalStateException e) {
+                            System.out.println("\t" + e.getMessage());
+                        }
                     }
                 }
             } catch (IOException e) {
