@@ -18,10 +18,10 @@ processResources {
 }
 
 dependencies {
-    compile 'org.jbibtex:jbibtex:1.0.8'
-    testCompile 'junit:junit:4.11'
+    compile 'org.jbibtex:jbibtex:1.0.14'
+    testCompile 'junit:junit:4.12'
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '2.1'
+    gradleVersion = '2.2.1'
 }

@@ -94,7 +94,7 @@ public class ValidateBibtex implements Command {
             throw new IllegalStateException("could not read file " + bibtexFile, e);
         } catch (ParseException e) {
             throw new IllegalStateException("could not parse bibtex file " + bibtexFile + "\n" + e.getMessage(), e);
-        } catch (TokenMgrError e) {
+        } catch (TokenMgrException e) {
             throw new IllegalStateException("bib tex file " + bibtexFile + " is not well formed. Reason: " + e.getMessage());
         }
     }
