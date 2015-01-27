@@ -9,7 +9,10 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ValidateBibtex implements Command {
 
@@ -37,54 +40,66 @@ public class ValidateBibtex implements Command {
         }
     }
 
+    private static Map<String, List<String>> getRequiredFieldsDatabase() {
+        Map<String, List<String>> result = new HashMap<>();
+
+        result.put("article", Arrays.asList("author", "title", "year", "month", "volume", "number", "pages"));
+        result.put("techreport", Arrays.asList("author", "title", "year", "month", "institution", "number"));
+        result.put("manual", Arrays.asList("author", "title", "year", "month"));
+        result.put("inproceedings", Arrays.asList("author", "title", "booktitle", "year", "pages"));
+
+        result.put("book", Arrays.asList("author", "title", "publisher", "year"));
+        result.put("phdthesis", Arrays.asList("author", "title", "school", "year"));
+        result.put("misc", Arrays.asList("author", "title", "howpublished", "year"));
+
+        result.put("incollection", Arrays.asList("author", "title", "booktitle", "year", "pages", "publisher"));
+
+        return result;
+    }
+
     private void validate(BibTeXDatabase database, Path bibtexFile) {
         for (BibTeXEntry entry : database.getEntries().values()) {
-            if ("ARTICLE".equals(entry.getType().toString())) {
-                validateArticle(bibtexFile, entry);
-            } else if ("TECHREPORT".equals(entry.getType().toString())) {
-                validateTechreport(bibtexFile, entry);
-            } else if ("MANUAL".equals(entry.getType().toString())) {
-                validateManual(bibtexFile, entry);
-            } else if ("INPROCEEDINGS".equals(entry.getType().toString())) {
-                validateInproceedings(bibtexFile, entry);
-            }
+            String type = entry.getType().toString().toLowerCase();
+
+            detectRequiredAndMissingFields(bibtexFile, entry, type);
+            detectProceedingsWithPages(bibtexFile, entry, type);
+            detectAbbreviations(bibtexFile, entry, type);
         }
     }
 
-    private void validateInproceedings(Path bibtexFile, BibTeXEntry entry) {
-        // TODO
-        String[] keys = {"author", "title", "booktitle", "year", "pages"};
-        for (String key : keys) {
+    private void detectRequiredAndMissingFields(Path bibtexFile, BibTeXEntry entry, String type) {
+        List<String> requiredFields = getRequiredFieldsDatabase().get(type);
+        if (requiredFields == null) {
+            printError(bibtexFile, entry, "no required fields available for this type");
+            return;
+        }
+        
+        for (String key : requiredFields) {
             ensureKeyExistence(bibtexFile, entry, new Key(key));
         }
     }
 
-    private void validateManual(Path bibtexFile, BibTeXEntry entry) {
-        // TODO
-        String[] keys = {"author", "title", "year", "month"};
-        for (String key : keys) {
-            ensureKeyExistence(bibtexFile, entry, new Key(key));
+    private void detectProceedingsWithPages(Path bibtexFile, BibTeXEntry entry, String type) {
+        if ("proceedings".equals(type) && entry.getField(BibTeXEntry.KEY_PAGES) != null) {
+            printError(bibtexFile, entry, "proceedings with pages, maybe should be inproceedings?");
         }
     }
 
-    private void validateTechreport(Path bibtexFile, BibTeXEntry entry) {
-        String[] keys = {"author", "title", "year", "month", "institution", "number"};
-        for (String key : keys) {
-            ensureKeyExistence(bibtexFile, entry, new Key(key));
-        }
-    }
-
-    private void validateArticle(Path bibtexFile, BibTeXEntry entry) {
-        String[] keys = {"author", "title", "year", "month", "volume", "number", "pages"};
-        for (String key : keys) {
-            ensureKeyExistence(bibtexFile, entry, new Key(key));
+    private void detectAbbreviations(Path bibtexFile, BibTeXEntry entry, String type) {
+        if ("article".equals(type) && entry.getField(BibTeXEntry.KEY_JOURNAL) != null && entry.getField(BibTeXEntry.KEY_JOURNAL).toString().contains(".")) {
+            printError(bibtexFile, entry, "journal is abbreviated");
         }
     }
 
     private void ensureKeyExistence(Path bibtexFile, BibTeXEntry entry, Key key) {
         if (!entry.getFields().containsKey(key) || entry.getFields().get(key).toString().trim().isEmpty()) {
-            System.out.format("%s\t%s\t%s\t%s is missing%n", bibtexFile, entry.getKey(), entry.getType(), key);
+            String message = key + " is missing";
+            printError(bibtexFile, entry, message);
         }
+    }
+
+    private void printError(Path bibtexFile, BibTeXEntry entry, String message) {
+        System.out.format("%s\t%s\t%s\t%s%n", bibtexFile, entry.getKey(), entry.getType().toString().toUpperCase(), message);
     }
 
     private BibTeXDatabase parseBibtexFile(Path bibtexFile) {
