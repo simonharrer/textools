@@ -76,7 +76,7 @@ public class MinifyBibtexAuthors implements Command {
         }
 
         // already abbreviated
-        if ("others".equals(authors[authors.length - 1]) && authors.length == 3) {
+        if ("others".equals(authors[authors.length - 1]) && authors.length == 2) {
             return author;
         }
 
