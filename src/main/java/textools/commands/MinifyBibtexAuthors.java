@@ -42,14 +42,19 @@ public class MinifyBibtexAuthors implements Command {
     public void minifyDatabase(BibTeXDatabase database) {
         for (BibTeXEntry entry : database.getEntries().values()) {
 
-            String author = entry.getField(new Key("author")).toUserString();
-            String abbreviatedAuthor = abbreviateAuthor(author);
+            Value author = entry.getField(new Key("author"));
+			
+			if(author != null) {
+				String abbreviatedAuthor = abbreviateAuthor(author.toUserString());
 
-            if (!author.equals(abbreviatedAuthor)) {
-                //entry.removeField(new Key("author"));
-                System.out.println("\tMinifying " + entry.getKey() + ": abbreviating author to " + abbreviatedAuthor);
-                entry.addField(new Key("author"), new StringValue(abbreviatedAuthor, StringValue.Style.BRACED));
-            }
+				if (!author.equals(abbreviatedAuthor)) {
+					//entry.removeField(new Key("author"));
+					System.out.println("\tMinifying " + entry.getKey() + ": abbreviating author to " + abbreviatedAuthor);
+					entry.addField(new Key("author"), new StringValue(abbreviatedAuthor, StringValue.Style.BRACED));
+				}
+			} else {
+				System.out.println("\tSkipping " + entry.getKey() + ": missing author field");
+			}
         }
     }
 
