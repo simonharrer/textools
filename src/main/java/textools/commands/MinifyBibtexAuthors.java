@@ -19,7 +19,7 @@ public class MinifyBibtexAuthors implements Command {
 
     @Override
     public String getDescription() {
-        return "replace additional authors with et al. in bibtex entries";
+        return "replace three or more authors with et al. in bibtex entries";
     }
 
     @Override
@@ -42,19 +42,21 @@ public class MinifyBibtexAuthors implements Command {
     public void minifyDatabase(BibTeXDatabase database) {
         for (BibTeXEntry entry : database.getEntries().values()) {
 
-            Value author = entry.getField(new Key("author"));
-			
-			if(author != null) {
-				String abbreviatedAuthor = abbreviateAuthor(author.toUserString());
+            Value authorValue = entry.getField(new Key("author"));
 
-				if (!author.equals(abbreviatedAuthor)) {
-					//entry.removeField(new Key("author"));
-					System.out.println("\tMinifying " + entry.getKey() + ": abbreviating author to " + abbreviatedAuthor);
-					entry.addField(new Key("author"), new StringValue(abbreviatedAuthor, StringValue.Style.BRACED));
-				}
-			} else {
-				System.out.println("\tSkipping " + entry.getKey() + ": missing author field");
-			}
+            if (authorValue == null) {
+                System.out.println("\tSkipping " + entry.getKey() + ": missing author field");
+                continue;
+            }
+
+            String author = authorValue.toUserString();
+            String abbreviatedAuthor = abbreviateAuthor(author);
+
+            if (!author.equals(abbreviatedAuthor)) {
+                //entry.removeField(new Key("author"));
+                System.out.println("\tMinifying " + entry.getKey() + ": abbreviating author to " + abbreviatedAuthor);
+                entry.addField(new Key("author"), new StringValue(abbreviatedAuthor, StringValue.Style.BRACED));
+            }
         }
     }
 
@@ -74,11 +76,15 @@ public class MinifyBibtexAuthors implements Command {
         }
 
         // already abbreviated
-        if ("others".equals(authors[authors.length - 1]) && authors.length == 2) {
+        if ("others".equals(authors[authors.length - 1]) && authors.length == 3) {
             return author;
         }
 
         // abbreviate
+        if (authors.length < 3) {
+            return author;
+        }
+
         return authors[0] + authorSeparator + "others";
     }
 }
