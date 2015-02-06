@@ -19,7 +19,7 @@ public class MinifyBibtexAuthors implements Command {
 
     @Override
     public String getDescription() {
-        return "replace additional authors with et al. in bibtex entries";
+        return "replace three or more authors with et al. in bibtex entries";
     }
 
     @Override
@@ -42,7 +42,14 @@ public class MinifyBibtexAuthors implements Command {
     public void minifyDatabase(BibTeXDatabase database) {
         for (BibTeXEntry entry : database.getEntries().values()) {
 
-            String author = entry.getField(new Key("author")).toUserString();
+            Value authorValue = entry.getField(new Key("author"));
+
+            if (authorValue == null) {
+                System.out.println("\tSkipping " + entry.getKey() + ": missing author field");
+                continue;
+            }
+
+            String author = authorValue.toUserString();
             String abbreviatedAuthor = abbreviateAuthor(author);
 
             if (!author.equals(abbreviatedAuthor)) {
@@ -74,6 +81,10 @@ public class MinifyBibtexAuthors implements Command {
         }
 
         // abbreviate
+        if (authors.length < 3) {
+            return author;
+        }
+
         return authors[0] + authorSeparator + "others";
     }
 }
