@@ -6,7 +6,7 @@ apply plugin: "application"
 mainClassName = "textools.Main"
 
 repositories {
-    mavenCentral()
+    jcenter()
 }
 
 import org.apache.tools.ant.filters.*
