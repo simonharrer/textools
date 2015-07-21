@@ -18,7 +18,7 @@ processResources {
 }
 
 dependencies {
-    compile 'org.jbibtex:jbibtex:1.0.14'
+    compile 'org.jbibtex:jbibtex:1.0.15'
     testCompile 'junit:junit:4.12'
 }
 
