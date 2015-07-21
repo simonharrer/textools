@@ -73,7 +73,7 @@ public class ValidateBibtex implements Command {
             printError(bibtexFile, entry, "no required fields available for this type");
             return;
         }
-        
+
         for (String key : requiredFields) {
             ensureKeyExistence(bibtexFile, entry, new Key(key));
         }
