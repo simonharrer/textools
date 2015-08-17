@@ -1,6 +1,10 @@
 package textools.commands;
 
+import textools.Command;
+import textools.tasks.FileSystemTasks;
+
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -9,9 +13,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import textools.Command;
-import textools.tasks.FileSystemTasks;
 
 /**
  * Validates all .tex files within the current directory and its descendants.
@@ -92,7 +93,7 @@ public class ValidateLatex implements Command {
     public static final Map<Pattern, String> COMPILED_RULES = getCompiledRules();
 
     private void validateTexFile(Path texFile) {
-        List<String> lines = readFile(texFile);
+        List<String> lines = readFile(texFile, 0);
         for (int lineNumber = 1; lineNumber <= lines.size(); lineNumber++) {
             String line = lines.get(lineNumber - 1);
 
@@ -112,11 +113,19 @@ public class ValidateLatex implements Command {
         }
     }
 
-    private List<String> readFile(Path texFile) {
+    private List<String> readFile(Path texFile, int charset) {
+        Charset charsets[] =  {StandardCharsets.UTF_8, StandardCharsets.ISO_8859_1, StandardCharsets.US_ASCII, StandardCharsets.UTF_16, StandardCharsets.UTF_16BE, StandardCharsets.UTF_16LE};
+        if(charset < 0 && charset >= charsets.length){
+            charset = 0;
+        }
         try {
-            return Files.readAllLines(texFile, StandardCharsets.UTF_8);
+            return Files.readAllLines(texFile, charsets[charset]);
         } catch (IOException e) {
-            throw new IllegalStateException("could not read " + texFile + ": " + e.getMessage(), e);
+            if(charset < charsets.length){
+               return readFile(texFile, ++charset);
+            }else{
+                throw new IllegalStateException("could not read " + texFile + ": " + e.getMessage(), e);
+            }
         }
     }
 }
