@@ -121,9 +121,10 @@ public class ValidateLatex implements Command {
         try {
             return Files.readAllLines(texFile, charsets[charset]);
         } catch (IOException e) {
-            if(charset < charsets.length){
-               return readFile(texFile, ++charset);
-            }else{
+            if (charset < charsets.length) {
+                charset++;
+                return readFile(texFile, charset);
+            } else {
                 throw new IllegalStateException("could not read " + texFile + ": " + e.getMessage(), e);
             }
         }
