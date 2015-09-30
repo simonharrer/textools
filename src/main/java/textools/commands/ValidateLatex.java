@@ -1,17 +1,16 @@
 package textools.commands;
 
+import textools.Command;
+import textools.tasks.FileSystemTasks;
+
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import textools.Command;
-import textools.tasks.FileSystemTasks;
 
 /**
  * Validates all .tex files within the current directory and its descendants.
@@ -92,7 +91,7 @@ public class ValidateLatex implements Command {
     public static final Map<Pattern, String> COMPILED_RULES = getCompiledRules();
 
     private void validateTexFile(Path texFile) {
-        List<String> lines = readFile(texFile);
+        List<String> lines = readFile(texFile, StandardCharsets.UTF_8);
         for (int lineNumber = 1; lineNumber <= lines.size(); lineNumber++) {
             String line = lines.get(lineNumber - 1);
 
@@ -112,11 +111,25 @@ public class ValidateLatex implements Command {
         }
     }
 
-    private List<String> readFile(Path texFile) {
+    private List<String> readFile(Path texFile, Charset charset) {
+        Charset[] charsetArray ={StandardCharsets.UTF_8, StandardCharsets.ISO_8859_1, StandardCharsets.US_ASCII, StandardCharsets.UTF_16, StandardCharsets.UTF_16BE, StandardCharsets.UTF_16LE};
+        ArrayList<Charset> charsetList = new ArrayList<>();
+        charsetList.addAll(Arrays.asList(charsetArray));
+        if(charset == null){
+            charset = StandardCharsets.UTF_8;
+        }
         try {
-            return Files.readAllLines(texFile, StandardCharsets.UTF_8);
+            return Files.readAllLines(texFile, charset);
         } catch (IOException e) {
-            throw new IllegalStateException("could not read " + texFile + ": " + e.getMessage(), e);
+            int i = 1;
+            if(charsetList.contains(charset)){
+                i = charsetList.indexOf(charset) + 1;
+            }
+            if (i <= charsetList.size()) {
+                return readFile(texFile, charsetList.get(i));
+            } else {
+                throw new IllegalStateException("could not read " + texFile + ": " + e.getMessage(), e);
+            }
         }
     }
 }
