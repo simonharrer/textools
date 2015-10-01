@@ -3,6 +3,8 @@
 Textools provides CLI commands for the most commonly used tasks when working with [LaTeX](http://www.latex-project.org/),
 e.g., generating a `.gitignore` file, creating the final pdf and validating the `.tex` and `.bib` files.
 
+**Only** works for UTF-8 encoded `.tex` and `.bib` files.
+
 ## Installation
 
 Requires JDK 7 with JAVA_HOME set to the JDK path!
