@@ -8,7 +8,7 @@ public class StructureTest {
 
     @Test
     public void testStructure() {
-        Structure s = new Structure("subsubsection", "This is a Perfect Title", label);
+        Structure s = new Structure("subsubsection", "This is a Perfect Title");
 
         assertEquals("\\subsubsection{This is a Perfect Title}\\label{sssec:PerfectTitle}", s.toLatex());
         assertEquals("\\ref{sssec:PerfectTitle}", s.getRef());

@@ -19,6 +19,7 @@ public class Main {
             new ValidateLatex(),
             new MinifyBibtexOptionals(),
             new MinifyBibtexAuthors(),
+            new GenerateLabels(),
             new Pdf(),
             new PdfClean(),
             new Version(),

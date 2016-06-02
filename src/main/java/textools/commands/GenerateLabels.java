@@ -8,6 +8,7 @@ import textools.commands.latex.StructureFinder;
 import textools.tasks.FileSystemTasks;
 
 import java.io.IOException;
+import java.nio.charset.MalformedInputException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -56,6 +57,13 @@ public class GenerateLabels implements Command {
             }
         }
 
+        for(Structure structure : structures) {
+            long count = structures.stream().filter(s -> s.getLabel().equals(structure.getLabel())).count();
+            if(count > 1) {
+                System.out.println(structure.getLabel() + " with " + count + " DUPLICATE(s)");
+            }
+        }
+
         // (2) determine new labels
         Map<String, String> oldLabels2NewLabels = new HashMap<>();
 
@@ -69,6 +77,8 @@ public class GenerateLabels implements Command {
     private List<String> readFile(Path texFile) {
         try {
             return Files.readAllLines(texFile, StandardCharsets.UTF_8);
+        } catch (MalformedInputException e) {
+            throw new IllegalStateException("file " + texFile + " is NOT encoded in utf-8");
         } catch (IOException e) {
             throw new IllegalStateException("could not read " + texFile + ": " + e.getMessage(), e);
         }

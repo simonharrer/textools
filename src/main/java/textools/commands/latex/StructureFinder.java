@@ -19,7 +19,12 @@ public class StructureFinder {
 
         Matcher matcher = STRUCTURE_FINDER_PATTERN.matcher(line);
         while(matcher.find()) {
-            result.add(new Structure(matcher.group("type"), matcher.group("structure"), label));
+            String label = matcher.group("label");
+            if(label == null) {
+                result.add(new Structure(matcher.group("type"), matcher.group("structure")));
+            } else {
+                result.add(new Structure(matcher.group("type"), matcher.group("structure"), matcher.group("label")));
+            }
         }
 
         return result;

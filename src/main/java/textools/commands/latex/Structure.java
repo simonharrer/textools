@@ -1,12 +1,25 @@
 package textools.commands.latex;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Structure {
+
+    private static final Set<String> SMALLER_WORDS;
+
+    static {
+        Set<String> smallerWords = new HashSet<>();
+
+        // Articles
+        smallerWords.addAll(Arrays.asList("a", "an", "the"));
+        // Prepositions
+        smallerWords.addAll(Arrays.asList("above", "about", "across", "against", "along", "among", "around", "at", "before", "behind", "below", "beneath", "beside", "between", "beyond", "by", "down", "during", "except", "for", "from", "in", "inside", "into", "like", "near", "of", "off", "on", "onto", "since", "to", "toward", "through", "under", "until", "up", "upon", "with", "within", "without"));
+        // Conjunctions
+        smallerWords.addAll(Arrays.asList("and", "but", "for", "nor", "or", "so", "yet"));
+
+        // unmodifiable for thread safety
+        SMALLER_WORDS = Collections.unmodifiableSet(smallerWords);
+    }
 
     private final String type;
     private final String content;
@@ -29,10 +42,10 @@ public class Structure {
     public String getShortType() {
         return type.replaceAll("section", "sec")
                 .replaceAll("paragraph", "para")
-                .replaceAll("chapter", "cha")
+                .replaceAll("chapter", "chap")
                 .replaceAll("image", "img")
                 .replaceAll("table", "tab")
-                .replaceAll("sub", "s");
+                ;
     }
 
     public Reference getRef() {
@@ -48,20 +61,14 @@ public class Structure {
     }
 
     public String getAbbreviatedContent() {
-        String[] elements = content.split("\\s");
+        String[] elements = content.replaceAll("([:;_,.?!]|--)", "").split("\\s");
         List<String> words = new LinkedList<>();
         for(String word : elements) {
             words.add(word);
         }
 
         return words.stream()
-                .filter(word -> !word.equalsIgnoreCase("the"))
-                .filter(word -> !word.equalsIgnoreCase("a"))
-                .filter(word -> !word.equalsIgnoreCase("is"))
-                .filter(word -> !word.equalsIgnoreCase("on"))
-                .filter(word -> !word.equalsIgnoreCase("this"))
-                .filter(word -> !word.equalsIgnoreCase("these"))
-                .filter(word -> !word.equalsIgnoreCase("those"))
+                .filter(word -> !SMALLER_WORDS.contains(word.toLowerCase()))
                 .collect(Collectors.joining());
     }
 
