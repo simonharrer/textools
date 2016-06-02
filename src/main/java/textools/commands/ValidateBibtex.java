@@ -86,7 +86,7 @@ public class ValidateBibtex implements Command {
     }
 
     private void detectAbbreviations(Path bibtexFile, BibTeXEntry entry, String type) {
-        if ("article".equals(type) && entry.getField(BibTeXEntry.KEY_JOURNAL) != null && entry.getField(BibTeXEntry.KEY_JOURNAL).toString().contains(".")) {
+        if ("article".equals(type) && entry.getField(BibTeXEntry.KEY_JOURNAL) != null && entry.getField(BibTeXEntry.KEY_JOURNAL).toUserString().contains(".")) {
             printError(bibtexFile, entry, "journal is abbreviated");
         }
     }
