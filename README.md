@@ -39,6 +39,13 @@ Requires JDK 7 with JAVA_HOME set to the JDK path!
      version                      prints the current version
      help                         prints usage information
 
+## Works best when
+
+- the citation style is numeric/alphanumeric.
+- each sentence is in its own line.
+- labels in tables/figures should be put right after the caption
+- all files are in UTF-8
+
 ## Authors
 
 [Simon Harrer](mailto:simon.harrer@gmail.com)
