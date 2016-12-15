@@ -17,6 +17,9 @@ processResources {
     ]
 }
 
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
 dependencies {
     compile 'org.jbibtex:jbibtex:1.0.15'
     testCompile 'junit:junit:4.12'

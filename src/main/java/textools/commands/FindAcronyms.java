@@ -4,10 +4,10 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -16,11 +16,55 @@ import textools.Command;
 import textools.tasks.FileSystemTasks;
 
 /**
- * Find unconverted acronyms
+ * Find acronyms defined in the acronym package but that are not yet included.
  */
 public class FindAcronyms implements Command {
 
-    private static final Pattern ACRO_DETECTION = Pattern.compile("\\\\acro\\{(?<acro>[a-zA-Z-]*)\\}");
+    public static class Acronym {
+
+        private static final Pattern DEFINITION_DETECTION = Pattern.compile("\\\\acro\\{(?<acro>[a-zA-Z-]*)\\}");
+
+        private final String name;
+        private final Pattern usageDetectionPattern;
+
+        public Acronym(String name) {
+            this.name = name;
+            this.usageDetectionPattern = Pattern.compile("(\\s|\\A|\\()" + name + "(\\s|\\.|!|\\z|\\)|,)");
+        }
+
+        public static Optional<Acronym> find(String line) {
+            final Matcher matcher = DEFINITION_DETECTION.matcher(line);
+            if (matcher.find()) {
+                return Optional.of(new Acronym(matcher.group("acro")));
+            } else {
+                return Optional.empty();
+            }
+        }
+
+        public boolean isInLine(String line) {
+            return usageDetectionPattern.matcher(line).find();
+        }
+
+        @Override public boolean equals(Object o) {
+            if (this == o)
+                return true;
+            if (o == null || getClass() != o.getClass())
+                return false;
+            Acronym acronym = (Acronym) o;
+            return Objects.equals(name, acronym.name);
+        }
+
+        @Override public int hashCode() {
+            return Objects.hash(name);
+        }
+
+        @Override public String toString() {
+            final StringBuffer sb = new StringBuffer("Acronym{");
+            sb.append("name='").append(name).append('\'');
+            sb.append('}');
+            return sb.toString();
+        }
+    }
 
     @Override
     public String getName() {
@@ -36,20 +80,12 @@ public class FindAcronyms implements Command {
     public void execute() {
         List<Path> texFiles = new FileSystemTasks().getFilesByExtension(".tex");
 
-        Set<String> acronyms = new HashSet<>();
+        Set<Acronym> acronyms = new HashSet<>();
         for (Path texFile : texFiles) {
             List<String> lines = readFile(texFile);
             for (String line : lines) {
-                final Matcher matcher = ACRO_DETECTION.matcher(line);
-                if (matcher.find()) {
-                    acronyms.add(matcher.group("acro"));
-                }
+                Acronym.find(line).ifPresent(acronyms::add);
             }
-        }
-
-        Map<String, Pattern> patterns = new HashMap<>();
-        for(String acro : acronyms) {
-            patterns.put(acro, Pattern.compile("(\\s|\\A|\\()" + acro + "(\\s|\\.|!|\\z|\\)|,)"));
         }
 
         for (Path texFile : texFiles) {
@@ -57,9 +93,8 @@ public class FindAcronyms implements Command {
             for (int lineNumber = 1; lineNumber <= lines.size(); lineNumber++) {
                 String line = lines.get(lineNumber - 1);
 
-                for (String acro : acronyms) {
-                    final Matcher matcher = patterns.get(acro).matcher(line);
-                    if (matcher.find()) {
+                for (Acronym acro : acronyms) {
+                    if (acro.isInLine(line)) {
                         System.out.format("%s:%d:%s - %s%n", texFile.toString(), lineNumber, acro, line);
                     }
                 }
