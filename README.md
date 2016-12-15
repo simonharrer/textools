@@ -11,7 +11,7 @@ Requires JDK 7 with JAVA_HOME set to the JDK path!
 
     $ git clone git@github.com:simonharrer/textools
     $ cd textools
-    $ gradlew installApp
+    $ gradlew installDist
     # add textools/build/install/textools/bin to PATH
 
 ## Usage
@@ -27,6 +27,7 @@ Requires JDK 7 with JAVA_HOME set to the JDK path!
 
      create-gitignore             creates a latex project specific .gitignore file
      clean                        Removes all generated files during a tex build
+     find-acronyms                find acronyms
      texlipse                     generates texlipse project files
      texniccenter                 generates the texniccenter project files
      validate                     executes validate-latex and validate-bibtex commands in sequence

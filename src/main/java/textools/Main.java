@@ -12,6 +12,7 @@ public class Main {
             new CreateGitignore(),
             new Clean(),
             new Cites(),
+            new FindAcronyms(),
             new Texlipse(),
             new Texniccenter(),
             new Validate(),
