@@ -23,22 +23,24 @@ Requires JDK 8 with JAVA_HOME set to the JDK path!
 
 ## Commands
 
-    textools [command]
-
-     create-gitignore             creates a latex project specific .gitignore file
-     clean                        Removes all generated files during a tex build
-     texlipse                     generates texlipse project files
-     texniccenter                 generates the texniccenter project files
-     validate                     executes validate-latex and validate-bibtex commands in sequence
-     validate-bibtex              validates all .bib files for the existence of certain fields
-     validate-latex               validates .tex files
-     validate-acronym             detects unmarked acronyms in text
-     minify-bibtex-optionals      removes optional keys in bibtex entries
-     minify-bibtex-authors        replace additional authors with et al. in bibtex entries
-     pdf                          creates pdf with pdflatex, including bibtex; logs to textools-pdf.log
-     pdfclean                     executes pdf and clean commands in sequence
-     version                      prints the current version
-     help                         prints usage information
+	textools [command]
+	
+	 cites                        Print used cites
+	 clean                        Removes all generated files during a tex build
+	 create-gitignore             creates a latex project specific .gitignore file
+	 help                         prints usage information
+	 minify-bibtex-authors        replace three or more authors with et al. in bibtex entries
+	 minify-bibtex-optionals      removes optional keys in bibtex entries
+	 pdf                          creates pdf with pdflatex, including bibtex; logs to textools-pdf.log
+	 pdfclean                     executes pdf and clean commands in sequence
+	 texlipse                     generates texlipse project files
+	 texniccenter                 generates the texniccenter project files
+	 validate                     executes validate-latex and validate-bibtex commands in sequence
+	 validate-acronym             detects unmarked acronyms in text
+	 validate-bibtex              validates all .bib files for the existence of certain fields
+	 validate-labels              detects unused labels
+	 validate-latex               validates .tex files
+	 version                      prints the current version
 
 ## Works best when
 
