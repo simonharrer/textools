@@ -1,8 +1,5 @@
 package textools.commands;
 
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.List;
@@ -11,6 +8,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import textools.Command;
+import textools.commands.latex.Latex;
 import textools.tasks.FileSystemTasks;
 
 /**
@@ -33,13 +31,11 @@ public class ValidateLatex implements Command {
     @Override
     public void execute() {
         List<Path> texFiles = new FileSystemTasks().getFilesByExtension(".tex");
-        for (Path texFile : texFiles) {
-            try {
-                validateTexFile(texFile);
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
+        Latex.with(texFiles, (line, lineNumber, file) -> {
+            for (Map.Entry<Pattern, String> entry : COMPILED_RULES.entrySet()) {
+                applyPattern(file, lineNumber, line, entry.getKey(), entry.getValue());
             }
-        }
+        });
     }
 
     private static Map<String, String> getRules() {
@@ -91,32 +87,10 @@ public class ValidateLatex implements Command {
 
     public static final Map<Pattern, String> COMPILED_RULES = getCompiledRules();
 
-    private void validateTexFile(Path texFile) {
-        List<String> lines = readFile(texFile);
-        for (int lineNumber = 1; lineNumber <= lines.size(); lineNumber++) {
-            String line = lines.get(lineNumber - 1);
-
-            // only validate if line is not commented out
-            if (!line.startsWith("%")) {
-                for (Map.Entry<Pattern, String> entry : COMPILED_RULES.entrySet()) {
-                    applyPattern(texFile, lineNumber, line, entry.getKey(), entry.getValue());
-                }
-            }
-        }
-    }
-
     private void applyPattern(Path texFile, int lineNumber, String line, Pattern pattern, String message) {
         Matcher matcher = pattern.matcher(line);
         while (matcher.find()) {
             System.out.format("%s#%4d,%-4d %s%n", texFile, lineNumber, matcher.start(), message);
-        }
-    }
-
-    private List<String> readFile(Path texFile) {
-        try {
-            return Files.readAllLines(texFile, StandardCharsets.UTF_8);
-        } catch (IOException e) {
-            throw new IllegalStateException("could not read " + texFile + ": " + e.getMessage(), e);
         }
     }
 }

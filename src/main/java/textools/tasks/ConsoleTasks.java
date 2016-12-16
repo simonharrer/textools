@@ -56,7 +56,7 @@ public class ConsoleTasks {
             Path logFilePath = Paths.get(logfile);
 
             Process process = Runtime.getRuntime().exec(command, new String[] {}, new File("."));
-            BufferedReader stdio = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            BufferedReader stdio = new BufferedReader(new InputStreamReader(process.getInputStream(), StandardCharsets.UTF_8));
 
             try (BufferedWriter logWriter = Files.newBufferedWriter(logFilePath, StandardCharsets.UTF_8,
                     StandardOpenOption.APPEND, StandardOpenOption.CREATE)) {

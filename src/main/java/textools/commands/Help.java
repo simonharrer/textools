@@ -22,7 +22,7 @@ public class Help implements Command {
     public void execute() {
         System.out.format("textools [command]%n%n");
         for (Command command : COMMANDS) {
-            StringBuffer firstPart = new StringBuffer();
+            StringBuilder firstPart = new StringBuilder();
             firstPart.append(' ');
             firstPart.append(command.getName());
             while (firstPart.length() < COMMAND_SHORT_LENGTH) {

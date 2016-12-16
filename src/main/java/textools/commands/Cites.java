@@ -1,11 +1,7 @@
 package textools.commands;
 
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.text.Collator;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -14,6 +10,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import textools.Command;
+import textools.commands.latex.Latex;
 import textools.tasks.FileSystemTasks;
 
 public class Cites implements Command {
@@ -61,30 +58,8 @@ public class Cites implements Command {
         Map<String, Integer> citations = new HashMap<>();
 
         List<Path> texFiles = new FileSystemTasks().getFilesByExtension(".tex");
-        for (Path texFile : texFiles) {
-            try {
-                for (Map.Entry<String, Integer> cite : determineCitations(texFile).entrySet()) {
-                    if (citations.containsKey(cite.getKey())) {
-                        citations.put(cite.getKey(), citations.get(cite.getKey()) + cite.getValue());
-                    } else {
-                        citations.put(cite.getKey(), cite.getValue());
-                    }
-                }
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-            }
-        }
-        return citations;
-    }
 
-    private Map<String, Integer> determineCitations(Path texFile) {
-        List<String> lines = readFile(texFile);
-
-        Map<String, Integer> citations = new HashMap<>();
-
-        for (int lineNumber = 1; lineNumber <= lines.size(); lineNumber++) {
-            String line = lines.get(lineNumber - 1);
-
+        Latex.with(texFiles, (line, lineNumber, file) -> {
             // only validate if line is not commented out
             if (!line.startsWith("%")) {
                 String regex = "\\\\cite\\{([^\\}]*)\\}";
@@ -101,16 +76,9 @@ public class Cites implements Command {
                     }
                 }
             }
-        }
+        });
 
         return citations;
     }
 
-    private List<String> readFile(Path texFile) {
-        try {
-            return Files.readAllLines(texFile, StandardCharsets.UTF_8);
-        } catch (IOException e) {
-            throw new IllegalStateException("could not read " + texFile + ": " + e.getMessage(), e);
-        }
-    }
 }

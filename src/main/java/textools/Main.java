@@ -5,7 +5,7 @@ import java.io.IOException;
 import textools.commands.Cites;
 import textools.commands.Clean;
 import textools.commands.CreateGitignore;
-import textools.commands.FindAcronyms;
+import textools.commands.ValidateAcronym;
 import textools.commands.Help;
 import textools.commands.MinifyBibtexAuthors;
 import textools.commands.MinifyBibtexOptionals;
@@ -26,7 +26,7 @@ public class Main {
             new CreateGitignore(),
             new Clean(),
             new Cites(),
-            new FindAcronyms(),
+            new ValidateAcronym(),
             new Texlipse(),
             new Texniccenter(),
             new Validate(),
