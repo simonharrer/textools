@@ -96,6 +96,8 @@ public class FileSystemTasks {
 
                 @Override
                 public FileVisitResult visitFile(Path file, BasicFileAttributes attributes) throws IOException {
+                    super.visitFile(file, attributes);
+
                     if (file.getFileName().toString().endsWith(fileExtension)) {
                         result.add(workingDirectory.relativize(file));
                     }

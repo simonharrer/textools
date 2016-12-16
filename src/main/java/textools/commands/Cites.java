@@ -37,7 +37,7 @@ public class Cites implements Command {
         for (Map.Entry<String, Integer> citation : citations.entrySet()) {
             cites.add(citation.getKey() + " [" + citation.getValue() + "]");
         }
-        Collections.sort(cites, Collator.getInstance());
+        cites.sort(Collator.getInstance());
         for (String cite : cites) {
             System.out.println(cite);
         }

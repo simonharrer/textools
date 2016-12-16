@@ -40,7 +40,7 @@ public class Main {
             DEFAULT
     };
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String... args) throws IOException {
         if (args == null || args.length == 0) {
             DEFAULT.execute();
             System.exit(0);

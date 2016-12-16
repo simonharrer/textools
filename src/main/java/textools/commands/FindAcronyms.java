@@ -59,7 +59,7 @@ public class FindAcronyms implements Command {
         }
 
         @Override public String toString() {
-            final StringBuffer sb = new StringBuffer("Acronym{");
+            final StringBuilder sb = new StringBuilder("Acronym{");
             sb.append("name='").append(name).append('\'');
             sb.append('}');
             return sb.toString();
