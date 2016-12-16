@@ -7,7 +7,7 @@ e.g., generating a `.gitignore` file, creating the final pdf and validating the 
 
 ## Installation
 
-Requires JDK 7 with JAVA_HOME set to the JDK path!
+Requires JDK 8 with JAVA_HOME set to the JDK path!
 
     $ git clone git@github.com:simonharrer/textools
     $ cd textools
