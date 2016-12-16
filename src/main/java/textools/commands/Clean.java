@@ -1,8 +1,5 @@
 package textools.commands;
 
-import textools.Command;
-import textools.tasks.FileSystemTasks;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.DirectoryStream;
@@ -12,6 +9,9 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+
+import textools.Command;
+import textools.tasks.FileSystemTasks;
 
 public class Clean implements Command {
 
@@ -27,20 +27,7 @@ public class Clean implements Command {
 
     @Override
     public void execute() {
-        List<String> globExpressions = new ArrayList<>();
-
-        // TODO search for .gitignore in current directory. if it does not find it, use internal one
-
-        List<String> lines = getGitIgnoreFileContents();
-
-        for (int lineNumber = 1; lineNumber <= lines.size(); lineNumber++) {
-            String line = lines.get(lineNumber - 1);
-
-            // ignore uncommented lines
-            if (!line.startsWith("#")) {
-                globExpressions.add(line);
-            }
-        }
+        List<String> globExpressions = readGlobExpressions();
 
         FileSystemTasks fileSystemTasks = new FileSystemTasks();
 
@@ -61,6 +48,22 @@ public class Clean implements Command {
         }
     }
 
+    private List<String> readGlobExpressions() {
+        List<String> globExpressions = new ArrayList<>();
+
+        List<String> lines = getGitIgnoreFileContents();
+
+        for (int lineNumber = 1; lineNumber <= lines.size(); lineNumber++) {
+            String line = lines.get(lineNumber - 1);
+
+            // ignore uncommented lines
+            if (!line.startsWith("#")) {
+                globExpressions.add(line);
+            }
+        }
+        return globExpressions;
+    }
+
     private List<String> getGitIgnoreFileContents() {
         try {
             return new FileSystemTasks().readFile(".gitignore");
@@ -78,7 +81,7 @@ public class Clean implements Command {
             }
 
             Scanner scanner = new Scanner(in);
-            while(scanner.hasNextLine()) {
+            while (scanner.hasNextLine()) {
                 result.add(scanner.nextLine());
             }
 

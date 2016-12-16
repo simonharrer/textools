@@ -1,12 +1,12 @@
 package textools.commands;
 
-import textools.Command;
-import textools.Constants;
-import textools.tasks.FileSystemTasks;
-
 import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.List;
+
+import textools.Command;
+import textools.Constants;
+import textools.tasks.FileSystemTasks;
 
 import static textools.tasks.ConsoleTasks.executeWithLog;
 
@@ -39,9 +39,9 @@ public class Pdf implements Command {
     }
 
     private void bibtex(String mainLatexFile) {
-    	if(mainLatexFile.contains(".tex")){
-    		mainLatexFile = mainLatexFile.substring(0,mainLatexFile.lastIndexOf(".tex"));
-    	}
+        if (mainLatexFile.contains(".tex")) {
+            mainLatexFile = mainLatexFile.substring(0, mainLatexFile.lastIndexOf(".tex"));
+        }
         executeWithLog("bibtex " + mainLatexFile, TEXTOOLS_PDF_LOG);
     }
 

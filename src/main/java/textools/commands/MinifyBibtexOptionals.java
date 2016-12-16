@@ -1,9 +1,5 @@
 package textools.commands;
 
-import org.jbibtex.*;
-import textools.Command;
-import textools.tasks.FileSystemTasks;
-
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -12,7 +8,17 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.jbibtex.BibTeXDatabase;
+import org.jbibtex.BibTeXEntry;
+import org.jbibtex.BibTeXFormatter;
+import org.jbibtex.BibTeXParser;
+import org.jbibtex.Key;
+import org.jbibtex.ParseException;
+import textools.Command;
+import textools.tasks.FileSystemTasks;
+
 public class MinifyBibtexOptionals implements Command {
+
     @Override
     public String getName() {
         return "minify-bibtex-optionals";
@@ -108,7 +114,7 @@ public class MinifyBibtexOptionals implements Command {
                 keys.add("school");
 
                 minifyEntry(entry, keys);
-            }  else if ("MISC".equalsIgnoreCase(entry.getType().toString())) {
+            } else if ("MISC".equalsIgnoreCase(entry.getType().toString())) {
 
                 Set<String> keys = new HashSet<>();
                 keys.add("title");

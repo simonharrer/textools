@@ -1,8 +1,22 @@
 package textools;
 
-import textools.commands.*;
-
 import java.io.IOException;
+
+import textools.commands.Cites;
+import textools.commands.Clean;
+import textools.commands.CreateGitignore;
+import textools.commands.FindAcronyms;
+import textools.commands.Help;
+import textools.commands.MinifyBibtexAuthors;
+import textools.commands.MinifyBibtexOptionals;
+import textools.commands.Pdf;
+import textools.commands.PdfClean;
+import textools.commands.Texlipse;
+import textools.commands.Texniccenter;
+import textools.commands.Validate;
+import textools.commands.ValidateBibtex;
+import textools.commands.ValidateLatex;
+import textools.commands.Version;
 
 public class Main {
 

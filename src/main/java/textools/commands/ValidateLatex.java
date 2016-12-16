@@ -53,7 +53,7 @@ public class ValidateLatex implements Command {
 
         rules.put("\\b(from|in|and|with|see|In|From|With|And|See)~\\\\cite", "instead of 'in [x]' use 'Harrer et al. [x]'");
         rules.put("(table|figure|section|listing|chapter|theorem|corollary|definition)~\\\\ref",
-				"capitalize Table, Figure, Listing, Section, Chapter, Theorem, Corollary, Definition; use abbreviations: Table, Fig., Sect., Chap., Theorem, Corollary, Definition when used with numbers, e.g. Fig.3, Table 1, Theorem 2");
+                "capitalize Table, Figure, Listing, Section, Chapter, Theorem, Corollary, Definition; use abbreviations: Table, Fig., Sect., Chap., Theorem, Corollary, Definition when used with numbers, e.g. Fig.3, Table 1, Theorem 2");
         rules.put("[0-9]%", "% sign after number is normally invalid");
 
         rules.put("e\\.g\\.[^,]", "use 'e.g.,' instead of 'e.g.'");
@@ -73,9 +73,9 @@ public class ValidateLatex implements Command {
         rules.put(",,", "no double comma");
 
         rules.put("(In|in) order to", "instead of 'in order to' use 'to'");
-        
+
         rules.put("behaviour", "Use the AE when possible: 'behavior'");
-        
+
         rules.put("all of the", "Instead of 'all of the' use 'all the'");
 
         return rules;

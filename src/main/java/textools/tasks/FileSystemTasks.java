@@ -3,7 +3,12 @@ package textools.tasks;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.*;
+import java.nio.file.FileVisitResult;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.SimpleFileVisitor;
+import java.nio.file.StandardCopyOption;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -88,6 +93,7 @@ public class FileSystemTasks {
 
         try {
             Files.walkFileTree(workingDirectory, new SimpleFileVisitor<Path>() {
+
                 @Override
                 public FileVisitResult visitFile(Path file, BasicFileAttributes attributes) throws IOException {
                     if (file.getFileName().toString().endsWith(fileExtension)) {

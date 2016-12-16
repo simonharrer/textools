@@ -1,8 +1,8 @@
 package textools.commands;
 
-import textools.Command;
-
 import java.util.ResourceBundle;
+
+import textools.Command;
 
 /**
  * Prints the current version of textools on the console.

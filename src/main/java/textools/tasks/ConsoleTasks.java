@@ -1,6 +1,11 @@
 package textools.tasks;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.Console;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -50,7 +55,7 @@ public class ConsoleTasks {
 
             Path logFilePath = Paths.get(logfile);
 
-            Process process = Runtime.getRuntime().exec(command, new String[]{}, new File("."));
+            Process process = Runtime.getRuntime().exec(command, new String[] {}, new File("."));
             BufferedReader stdio = new BufferedReader(new InputStreamReader(process.getInputStream()));
 
             try (BufferedWriter logWriter = Files.newBufferedWriter(logFilePath, StandardCharsets.UTF_8,

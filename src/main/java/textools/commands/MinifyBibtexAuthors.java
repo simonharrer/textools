@@ -1,14 +1,21 @@
 package textools.commands;
 
-import org.jbibtex.*;
-import textools.Command;
-import textools.tasks.FileSystemTasks;
-
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
+
+import org.jbibtex.BibTeXDatabase;
+import org.jbibtex.BibTeXEntry;
+import org.jbibtex.BibTeXFormatter;
+import org.jbibtex.BibTeXParser;
+import org.jbibtex.Key;
+import org.jbibtex.ParseException;
+import org.jbibtex.StringValue;
+import org.jbibtex.Value;
+import textools.Command;
+import textools.tasks.FileSystemTasks;
 
 public class MinifyBibtexAuthors implements Command {
 

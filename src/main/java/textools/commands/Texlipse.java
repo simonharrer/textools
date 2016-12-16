@@ -1,17 +1,17 @@
 package textools.commands;
 
-import textools.Command;
-import textools.tasks.FileSystemTasks;
-
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 
-import static textools.tasks.ConsoleTasks.askString;
+import textools.Command;
+import textools.tasks.FileSystemTasks;
+
 import static textools.Constants.MAIN_LATEX_FILE;
 import static textools.Constants.NOT_FOUND;
+import static textools.tasks.ConsoleTasks.askString;
 
 public class Texlipse implements Command {
 
@@ -39,7 +39,6 @@ public class Texlipse implements Command {
         tasks.createFile(ECLIPSE_PROJECT_FILE, getProjectFile(projectName));
         tasks.createFile(TEXLIPSE_FILE, getTexlipseFile(texFile));
     }
-
 
     private String getProjectFile(String name) {
         return "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +

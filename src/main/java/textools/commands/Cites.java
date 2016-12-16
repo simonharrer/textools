@@ -1,18 +1,23 @@
 package textools.commands;
 
-import textools.Command;
-import textools.tasks.FileSystemTasks;
-
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.text.Collator;
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import textools.Command;
+import textools.tasks.FileSystemTasks;
+
 public class Cites implements Command {
+
     @Override
     public String getName() {
         return "cites";
