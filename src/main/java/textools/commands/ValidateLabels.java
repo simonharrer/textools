@@ -33,28 +33,38 @@ public class ValidateLabels implements Command {
     public void execute() {
         List<Path> texFiles = new FileSystemTasks().getFilesByExtension(".tex");
 
-        Set<String> labels = new HashSet<>();
+        Set<String> definedlabels = new HashSet<>();
 
         Latex.with(texFiles, (line, lineNumber, file) -> {
             final Matcher matcher = LABEL.matcher(line);
             while (matcher.find()) {
-                labels.add(matcher.group("label"));
+                definedlabels.add(matcher.group("label"));
             }
         });
 
-        Set<String> refs = new HashSet<>();
+        Set<String> referencedLabels = new HashSet<>();
 
         Latex.with(texFiles, (line, lineNumber, file) -> {
             final Matcher matcher = REF.matcher(line);
             while (matcher.find()) {
-                refs.add(matcher.group("ref"));
+                referencedLabels.add(matcher.group("ref"));
             }
         });
 
-        Set<String> unusedLabels = new HashSet<>(labels);
-        unusedLabels.removeAll(refs);
+        Set<String> unusedDefinedLabels = new HashSet<>(definedlabels);
+        unusedDefinedLabels.removeAll(referencedLabels);
+        unusedDefinedLabels
+                .stream()
+                .sorted()
+                .forEach(label -> System.out.format("unused defined label %s%n", label));
 
-        unusedLabels.stream().sorted().forEach(label -> System.out.format("unused label %s%n", label));
+        Set<String> missingReferencedLabels = new HashSet<>(referencedLabels);
+        missingReferencedLabels.removeAll(definedlabels);
+        missingReferencedLabels
+                .stream()
+                .filter(l -> !l.startsWith("lst:")) // because labels of listings cannot be detected easily, and to prevent a lot of false negatives
+                .sorted()
+                .forEach(label -> System.out.format("referenced label %s is missing%n", label));
     }
 
 }
