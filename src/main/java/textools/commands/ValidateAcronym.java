@@ -34,8 +34,10 @@ public class ValidateAcronym implements Command {
 
         Latex.with(texFiles, (line, lineNumber, file) ->  {
             for (Acronym acro : acronyms) {
-                if (acro.isInLine(line)) {
+                if (acro.isAbbreviationInLine(line)) {
                     System.out.format("%s:%d:%s%n", file.toString(), lineNumber, acro.getName());
+                } else if(acro.isLongInLine(line)) {
+                    System.out.format("%s:%d:%s%n", file.toString(), lineNumber, acro.getLongName());
                 }
             }
         });

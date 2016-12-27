@@ -35,7 +35,8 @@ public class ValidateLatexTest {
 
             }
 
-            assertEquals("line #" + i + " violates rules " + violatedRules, 1, violatedRules.size());
+            final int lineNumber = i + 1;
+            assertEquals("line #" + lineNumber + " violates rules " + violatedRules, 1, violatedRules.size());
         }
 
         Set<String> untestedRules = new HashSet<>(compiledRules.values());

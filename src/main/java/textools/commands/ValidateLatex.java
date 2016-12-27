@@ -43,7 +43,7 @@ public class ValidateLatex implements Command {
         rules.put("^\\\\footnote(\\{|\\[)", "line starts with footnote");
         rules.put(" \\\\label\\{", "space in front of label");
         rules.put("\\\\caption\\{.*\\\\ac\\{", "acronym in caption");
-        rules.put(" \\\\footnote[^s]", "space in front of footnote");
+        rules.put(" \\\\footnote(\\{|\\[)", "space in front of footnote");
         rules.put("[^~]\\\\ref", "use '~\\ref' to prevent bad line breaks");
         rules.put("(?<!et( |~)al)\\.~?\\\\cite", "use cite before the dot"); // use negative lookbehind in regex
         rules.put("[^~'\\{\\}]\\\\cite", "use '~\\cite' to prevent bad line breaks");
