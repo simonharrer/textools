@@ -43,12 +43,14 @@ public class ValidateLatex implements Command {
         rules.put("^\\\\footnote(\\{|\\[)", "line starts with footnote");
         rules.put(" \\\\label\\{", "space in front of label");
         rules.put("\\\\caption\\{.*\\\\ac\\{", "acronym in caption");
-        rules.put(" \\\\footnote", "space in front of footnote");
+        rules.put(" \\\\footnote[^s]", "space in front of footnote");
         rules.put("[^~]\\\\ref", "use '~\\ref' to prevent bad line breaks");
-        rules.put("(?<!et al)\\.~?\\\\cite", "use cite before the dot"); // use negative lookbehind in regex
-        rules.put("[^~]\\\\cite", "use '~\\cite' to prevent bad line breaks");
+        rules.put("(?<!et( |~)al)\\.~?\\\\cite", "use cite before the dot"); // use negative lookbehind in regex
+        rules.put("[^~'\\{\\}]\\\\cite", "use '~\\cite' to prevent bad line breaks");
 
-        rules.put("\\b(from|in|and|with|see|In|From|With|And|See)~\\\\cite", "instead of 'in [x]' use 'Harrer et al. [x]'");
+        // ignored, too many annoying issues with it
+        // rules.put("\\b(from|in|and|with|see|In|From|With|And|See)~\\\\cite", "instead of 'in [x]' use 'Harrer et al. [x]'");
+
         rules.put("(table|figure|section|listing|chapter|theorem|corollary|definition)~\\\\ref",
                 "capitalize Table, Figure, Listing, Section, Chapter, Theorem, Corollary, Definition; use abbreviations: Table, Fig., Sect., Chap., Theorem, Corollary, Definition when used with numbers, e.g. Fig.3, Table 1, Theorem 2");
         rules.put("[0-9]%", "% sign after number is normally invalid");
