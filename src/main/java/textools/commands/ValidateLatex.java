@@ -46,10 +46,12 @@ public class ValidateLatex implements Command {
         rules.put(" \\\\footnote(\\{|\\[)", "space in front of footnote");
         rules.put("[^~]\\\\ref", "use '~\\ref' to prevent bad line breaks");
         rules.put("(?<!et( |~)al)\\.~?\\\\cite", "use cite before the dot"); // use negative lookbehind in regex
-        rules.put("[^~'\\{\\}]\\\\cite", "use '~\\cite' to prevent bad line breaks");
+        rules.put("[^~'\\{\\}]\\\\cite[^tp]", "use '~\\cite' to prevent bad line breaks");
+        rules.put("But ", "use 'A few words, however, ...' instead");
+        rules.put("(While|, while) ", "use 'Although' instead");
+        rules.put("''\\.", "move . into quotes");
 
-        // ignored, too many annoying issues with it
-        // rules.put("\\b(from|in|and|with|see|In|From|With|And|See)~\\\\cite", "instead of 'in [x]' use 'Harrer et al. [x]'");
+        rules.put("\\b(from|in|and|with|see|In|From|With|And|See)~\\\\cite", "instead of 'in [x]' use 'Harrer et al. [x]'");
 
         rules.put("(table|figure|section|listing|chapter|theorem|corollary|definition)~\\\\ref",
                 "capitalize Table, Figure, Listing, Section, Chapter, Theorem, Corollary, Definition; use abbreviations: Table, Fig., Sect., Chap., Theorem, Corollary, Definition when used with numbers, e.g. Fig.3, Table 1, Theorem 2");
@@ -75,7 +77,7 @@ public class ValidateLatex implements Command {
 
         rules.put("behaviour", "Use the AE when possible: 'behavior'");
 
-        rules.put("all of the", "Instead of 'all of the' use 'all the'");
+        rules.put("all of the ", "Instead of 'all of the' use 'all the'");
 
         return rules;
     }
