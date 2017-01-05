@@ -50,7 +50,7 @@ public class ValidateLatex implements Command {
         rules.put("But ", "use 'A few words, however, ...' instead");
         rules.put("(While|, while) ", "use 'Although' instead");
         rules.put("''\\.", "move . into quotes");
-        rules.put("\\w \\d+", "Instead of Java 8, use Java~8");
+        rules.put("(Java|activiti|camunda~BPM|ODE) \\d+", "Instead of Java 8, use Java~8");
 
         rules.put("\\b(from|in|and|with|see|In|From|With|And|See)( |~)\\\\cite", "instead of 'in [x]' use 'Harrer et al. [x]'");
 
@@ -63,7 +63,7 @@ public class ValidateLatex implements Command {
 
         rules.put("cf\\.[^\\\\]", "use 'cf.\\ ' instead of 'cf. '");
 
-        rules.put("(All|The|Of|all|the|of) [0-9][^0-9]", "write the numbers out, e.g., one out of three");
+        rules.put("(All|The|Of|all|the|of)( |~)[0-9][^0-9]", "write the numbers out, e.g., one out of three");
 
         rules.put("et\\. al\\.", "use 'et al.' instead of 'et. al.'");
         rules.put("et\\ al\\.", "use 'et~al.' instead of 'et al.'");
@@ -80,6 +80,7 @@ public class ValidateLatex implements Command {
         rules.put("behaviour", "Use the AE when possible: 'behavior'");
 
         rules.put("all of the ", "Instead of 'all of the' use 'all the'");
+        rules.put("Tt ", "Use It instead of Tt");
 
         return rules;
     }
