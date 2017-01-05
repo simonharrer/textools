@@ -1,7 +1,6 @@
 package textools;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,6 +21,7 @@ import textools.commands.ValidateAcronym;
 import textools.commands.ValidateBibtex;
 import textools.commands.ValidateLabels;
 import textools.commands.ValidateLatex;
+import textools.commands.ValidateLinks;
 import textools.commands.Version;
 
 public class Main {
@@ -43,6 +43,7 @@ public class Main {
             new MinifyBibtexAuthors(),
             new Pdf(),
             new PdfClean(),
+            new ValidateLinks(),
             new Version(),
             DEFAULT
     ).sorted(Comparator.comparing(Command::getName)).collect(Collectors.toList());

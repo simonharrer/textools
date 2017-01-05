@@ -50,8 +50,9 @@ public class ValidateLatex implements Command {
         rules.put("But ", "use 'A few words, however, ...' instead");
         rules.put("(While|, while) ", "use 'Although' instead");
         rules.put("''\\.", "move . into quotes");
+        rules.put("\\w \\d+", "Instead of Java 8, use Java~8");
 
-        rules.put("\\b(from|in|and|with|see|In|From|With|And|See)~\\\\cite", "instead of 'in [x]' use 'Harrer et al. [x]'");
+        rules.put("\\b(from|in|and|with|see|In|From|With|And|See)( |~)\\\\cite", "instead of 'in [x]' use 'Harrer et al. [x]'");
 
         rules.put("(table|figure|section|listing|chapter|theorem|corollary|definition)~\\\\ref",
                 "capitalize Table, Figure, Listing, Section, Chapter, Theorem, Corollary, Definition; use abbreviations: Table, Fig., Sect., Chap., Theorem, Corollary, Definition when used with numbers, e.g. Fig.3, Table 1, Theorem 2");
@@ -65,6 +66,7 @@ public class ValidateLatex implements Command {
         rules.put("(All|The|Of|all|the|of) [0-9][^0-9]", "write the numbers out, e.g., one out of three");
 
         rules.put("et\\. al\\.", "use 'et al.' instead of 'et. al.'");
+        rules.put("et\\ al\\.", "use 'et~al.' instead of 'et al.'");
 
         rules.put("\\b[Nn]on[- ]", "join non with word, e.g., nonfunctional instead of non-functional or non functional");
 

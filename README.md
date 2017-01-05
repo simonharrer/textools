@@ -40,6 +40,7 @@ Requires JDK 8 with JAVA_HOME set to the JDK path!
 	 validate-bibtex              validates all .bib files for the existence of certain fields
 	 validate-labels              detects unused labels
 	 validate-latex               validates .tex files
+	 validate-links               detects malformed and unreachable urls
 	 version                      prints the current version
 
 ## Works best when
