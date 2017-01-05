@@ -50,9 +50,10 @@ public class ValidateLatex implements Command {
         rules.put("But ", "use 'A few words, however, ...' instead");
         rules.put("(While|, while) ", "use 'Although' instead");
         rules.put("''\\.", "move . into quotes");
+        rules.put("[Bb]ecause of this", "use hence instead of because of this");
         rules.put("(Java|activiti|camunda~BPM|ODE) \\d+", "Instead of Java 8, use Java~8");
 
-        rules.put("\\b(from|in|and|with|see|In|From|With|And|See)( |~)\\\\cite", "instead of 'in [x]' use 'Harrer et al. [x]'");
+        rules.put("\\b(from| in|and|with|see|In|From|With|And|See)( |~)\\\\cite[^t]", "instead of 'in [x]' use 'Harrer et al. [x]'");
 
         rules.put("(table|figure|section|listing|chapter|theorem|corollary|definition)~\\\\ref",
                 "capitalize Table, Figure, Listing, Section, Chapter, Theorem, Corollary, Definition; use abbreviations: Table, Fig., Sect., Chap., Theorem, Corollary, Definition when used with numbers, e.g. Fig.3, Table 1, Theorem 2");
