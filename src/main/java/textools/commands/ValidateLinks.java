@@ -8,9 +8,11 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import javax.net.ssl.SSLHandshakeException;
 
@@ -39,6 +41,13 @@ public class ValidateLinks implements Command {
 
         Set<Link> links = new HashSet<>();
         Latex.with(texFiles, (line, lineNumber, file) -> links.addAll(Link.find(line, lineNumber, file)));
+
+        final Map<String, List<Link>> urlToLink = links.stream().collect(Collectors.groupingBy(l -> l.url));
+        urlToLink.forEach((url, ls) -> {
+            if(ls.size() > 1) {
+                System.out.format("URL %s is duplicated in %s%n", url, ls.stream().map(l -> l.file + "#" + l.lineNumber).collect(Collectors.joining(";")));
+            }
+        });
 
         links.stream()
                 .parallel()
