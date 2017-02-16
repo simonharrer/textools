@@ -17,7 +17,7 @@ import textools.tasks.FileSystemTasks;
 public class ValidateLabels implements Command {
 
     private static final Pattern LABEL = Pattern.compile("\\\\label\\{(?<label>[^\\}]*)\\}");
-    private static final Pattern REF = Pattern.compile("\\\\(ref|cref|nameref)\\{(?<ref>[^\\}]*)\\}");
+    private static final Pattern REF = Pattern.compile("\\\\(ref|[Cc]ref|nameref)\\{(?<ref>[^\\}]*)\\}");
 
     @Override
     public String getName() {
