@@ -14,6 +14,7 @@ import textools.commands.MinifyBibtexAuthors;
 import textools.commands.MinifyBibtexOptionals;
 import textools.commands.Pdf;
 import textools.commands.PdfClean;
+import textools.commands.PrintLinksSorted;
 import textools.commands.Texlipse;
 import textools.commands.Texniccenter;
 import textools.commands.Validate;
@@ -45,6 +46,7 @@ public class Main {
             new PdfClean(),
             new ValidateLinks(),
             new Version(),
+            new PrintLinksSorted(),
             DEFAULT
     ).sorted(Comparator.comparing(Command::getName)).collect(Collectors.toList());
 
