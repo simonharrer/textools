@@ -16,7 +16,7 @@ public class Acronym {
 
     public Acronym(String name, String acroLong) {
         this.name = Objects.requireNonNull(name);
-        this.usageDetectionPattern = Pattern.compile("(\\s|\\A|\\()" + name + "(\\s|\\.|!|\\z|\\)|,|~)");
+        this.usageDetectionPattern = Pattern.compile("(\\s|\\A|\\()" + Pattern.quote(name) + "(\\s|\\.|!|\\z|\\)|,|~)");
         this.acroLong = Objects.requireNonNull(acroLong);
     }
 

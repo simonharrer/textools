@@ -46,7 +46,7 @@ public class ValidateLatex implements Command {
         rules.put(" \\\\footnote(\\{|\\[)", "space in front of footnote");
         rules.put("[^~]\\\\ref", "use '~\\ref' to prevent bad line breaks");
         rules.put("(?<!et( |~)al)\\.~?\\\\cite", "use cite before the dot"); // use negative lookbehind in regex
-        rules.put("[^~'\\{\\}]\\\\cite[^tp]", "use '~\\cite' to prevent bad line breaks");
+        rules.put("[^~\\{\\}]\\\\cite[^tp]", "use '~\\cite' to prevent bad line breaks");
         rules.put("But ", "use 'A few words, however, ...' instead");
         rules.put("(While|, while) ", "use 'Although' instead");
         rules.put("''\\.", "move . into quotes");
@@ -82,6 +82,16 @@ public class ValidateLatex implements Command {
 
         rules.put("all of the ", "Instead of 'all of the' use 'all the'");
         rules.put("Tt ", "Use It instead of Tt");
+        rules.put(" a bit ", "Too informal (a bit)");
+        rules.put("( a|A) lot of ", "Too informal (a lot of)");
+        rules.put("( a|A) couple of ", "Too informal (a couple of)");
+        rules.put(" till ", "Too informal (till)");
+        rules.put("( t|T)hing( |s |\\.|s\\.)", "Too informal (thing)");
+        rules.put(" always ", "Too exaggerated (always)");
+        rules.put(" never ", "Too exaggerated (always)");
+
+        rules.put("\\[(pp|p)\\. [0-9]+\\]", "Use ~ instead ([p.~4]");
+        rules.put("\\\\footnote\\{See \\\\url\\{[^\\}]+\\}\\}", "Remove ses as unecessary");
 
         return rules;
     }
