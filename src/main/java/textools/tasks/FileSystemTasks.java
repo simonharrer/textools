@@ -16,7 +16,7 @@ import java.util.List;
 
 public class FileSystemTasks {
 
-    private final Path workingDirectory = Paths.get(System.getProperty("user.dir"));
+    public static final Path workingDirectory = Paths.get(System.getProperty("user.dir"));
 
     public List<String> readFile(String file) {
         try {
@@ -65,7 +65,7 @@ public class FileSystemTasks {
 
     public void copyResourceToFile(String source, String target) {
         Path targetPath = workingDirectory.resolve(target);
-        System.out.println("\tcopying " + source + " to " + workingDirectory.relativize(targetPath));
+        System.out.println("\tcopying " + source + " to " + workingDirectory.resolve(targetPath));
 
         try (InputStream in = getClass().getResourceAsStream("/" + source)) {
 
@@ -99,7 +99,7 @@ public class FileSystemTasks {
                     super.visitFile(file, attributes);
 
                     if (file.getFileName().toString().endsWith(fileExtension)) {
-                        result.add(workingDirectory.relativize(file));
+                        result.add(file.toAbsolutePath());
                     }
                     return FileVisitResult.CONTINUE;
                 }

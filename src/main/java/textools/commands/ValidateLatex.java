@@ -109,7 +109,7 @@ public class ValidateLatex implements Command {
     private void applyPattern(Path texFile, int lineNumber, String line, Pattern pattern, String message) {
         Matcher matcher = pattern.matcher(line);
         while (matcher.find()) {
-            System.out.format("%s#%4d,%-4d %s%n", texFile, lineNumber, matcher.start(), message);
+            System.out.format("%s#%4d,%-4d %s%n", FileSystemTasks.workingDirectory.relativize(texFile), lineNumber, matcher.start(), message);
         }
     }
 }
