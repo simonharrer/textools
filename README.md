@@ -9,9 +9,9 @@ e.g., generating a `.gitignore` file, creating the final pdf and validating the 
 
 Requires JDK 8 with JAVA_HOME set to the JDK path!
 
-    $ git clone git@github.com:simonharrer/textools
+    $ git clone https://github.com/simonharrer/textools.git
     $ cd textools
-    $ gradlew installDist
+    $ ./gradlew installDist
     # add textools/build/install/textools/bin to PATH
 
 ## Usage
