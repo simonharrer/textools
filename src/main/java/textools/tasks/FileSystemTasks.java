@@ -16,7 +16,7 @@ import java.util.List;
 
 public class FileSystemTasks {
 
-    private final Path workingDirectory = Paths.get(".");
+    private final Path workingDirectory = Paths.get(System.getProperty("user.dir"));
 
     public List<String> readFile(String file) {
         try {
