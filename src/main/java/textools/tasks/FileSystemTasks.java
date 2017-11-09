@@ -10,8 +10,8 @@ import java.nio.file.Paths;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.StandardCopyOption;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 
 public class FileSystemTasks {
@@ -89,7 +89,7 @@ public class FileSystemTasks {
     }
 
     public List<Path> getFilesByExtension(final String fileExtension) {
-        final List<Path> result = new LinkedList<>();
+        final List<Path> result = new ArrayList<>();
 
         try {
             Files.walkFileTree(workingDirectory, new SimpleFileVisitor<Path>() {

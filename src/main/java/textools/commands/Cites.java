@@ -2,8 +2,8 @@ package textools.commands;
 
 import java.nio.file.Path;
 import java.text.Collator;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -30,7 +30,7 @@ public class Cites implements Command {
         Map<String, Integer> citations = getCitations();
 
         // print result
-        List<String> cites = new LinkedList<>();
+        List<String> cites = new ArrayList<>();
         for (Map.Entry<String, Integer> citation : citations.entrySet()) {
             cites.add(citation.getKey() + " [" + citation.getValue() + "]");
         }
