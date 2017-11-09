@@ -91,7 +91,7 @@ public class ValidateLatex implements Command {
         rules.put(" never ", "Too exaggerated (always)");
 
         rules.put("\\[(pp|p)\\. [0-9]+\\]", "Use ~ instead ([p.~4]");
-        rules.put("\\\\footnote\\{See \\\\url\\{[^\\}]+\\}\\}", "Remove ses as unecessary");
+        rules.put("\\\\footnote\\{See \\\\url\\{[^\\}]+\\}\\}", "Remove 'see' as it is unnecessary");
 
         return rules;
     }
