@@ -23,7 +23,7 @@ public class FileSystemTasks {
             Path path = workingDirectory.resolve(file);
             return Files.readAllLines(path, StandardCharsets.UTF_8);
         } catch (IOException e) {
-            throw new IllegalStateException("could not read " + file + ": " + e.getMessage(), e);
+            throw new IllegalStateException("could not read " + workingDirectory.resolve(file) + ": " + e.getMessage(), e);
         }
     }
 
