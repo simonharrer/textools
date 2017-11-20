@@ -1,7 +1,7 @@
 package textools.commands;
 
 import java.nio.file.Paths;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import textools.Command;
@@ -50,7 +50,7 @@ public class Pdf implements Command {
     }
 
     private String getMainLatexFileWithoutExtension() {
-        List<String> mainTexFiles = new LinkedList<>();
+        List<String> mainTexFiles = new ArrayList<>();
         mainTexFiles.add(Texlipse.getMainTexFile(Paths.get(".")));
         mainTexFiles.add(Texniccenter.getMainTexFile(Paths.get(".")));
         mainTexFiles.add(Constants.MAIN_LATEX_FILE);

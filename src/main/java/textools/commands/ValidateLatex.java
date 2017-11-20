@@ -91,7 +91,7 @@ public class ValidateLatex implements Command {
         rules.put(" never ", "Too exaggerated (always)");
 
         rules.put("\\[(pp|p)\\. [0-9]+\\]", "Use ~ instead ([p.~4]");
-        rules.put("\\\\footnote\\{See \\\\url\\{[^\\}]+\\}\\}", "Remove ses as unecessary");
+        rules.put("\\\\footnote\\{See \\\\url\\{[^\\}]+\\}\\}", "Remove 'see' as it is unnecessary");
 
         return rules;
     }
@@ -109,7 +109,7 @@ public class ValidateLatex implements Command {
     private void applyPattern(Path texFile, int lineNumber, String line, Pattern pattern, String message) {
         Matcher matcher = pattern.matcher(line);
         while (matcher.find()) {
-            System.out.format("%s#%4d,%-4d %s%n", texFile, lineNumber, matcher.start(), message);
+            System.out.format("%s#%4d,%-4d %s%n", FileSystemTasks.workingDirectory.relativize(texFile), lineNumber, matcher.start(), message);
         }
     }
 }

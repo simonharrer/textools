@@ -1,4 +1,4 @@
-# textools [![Build Status](https://travis-ci.org/simonharrer/textools.png?branch=master)](https://travis-ci.org/simonharrer/textools) [![Dependency Status](https://www.versioneye.com/user/projects/54c65d551a0071a7e4000058/badge.svg?style=flat)](https://www.versioneye.com/user/projects/54c65d551a0071a7e4000058) 
+# textools [![Build Status](https://travis-ci.org/simonharrer/textools.png?branch=master)](https://travis-ci.org/simonharrer/textools) 
 
 Textools provides CLI commands for the most commonly used tasks when working with [LaTeX](http://www.latex-project.org/),
 e.g., generating a `.gitignore` file, creating the final pdf and validating the `.tex` and `.bib` files.
@@ -9,9 +9,9 @@ e.g., generating a `.gitignore` file, creating the final pdf and validating the 
 
 Requires JDK 8 with JAVA_HOME set to the JDK path!
 
-    $ git clone git@github.com:simonharrer/textools
+    $ git clone https://github.com/simonharrer/textools.git
     $ cd textools
-    $ gradlew installDist
+    $ ./gradlew installDist
     # add textools/build/install/textools/bin to PATH
 
 ## Usage

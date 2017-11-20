@@ -2,6 +2,7 @@ package textools.commands;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -80,7 +81,7 @@ public class Clean implements Command {
                 throw new IllegalStateException("Cannot find resource " + source);
             }
 
-            Scanner scanner = new Scanner(in);
+            Scanner scanner = new Scanner(in, StandardCharsets.UTF_8.name());
             while (scanner.hasNextLine()) {
                 result.add(scanner.nextLine());
             }

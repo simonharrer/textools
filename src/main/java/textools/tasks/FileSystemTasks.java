@@ -10,20 +10,20 @@ import java.nio.file.Paths;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.StandardCopyOption;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 
 public class FileSystemTasks {
 
-    private final Path workingDirectory = Paths.get(".");
+    public static final Path workingDirectory = Paths.get(System.getProperty("user.dir"));
 
     public List<String> readFile(String file) {
         try {
             Path path = workingDirectory.resolve(file);
             return Files.readAllLines(path, StandardCharsets.UTF_8);
         } catch (IOException e) {
-            throw new IllegalStateException("could not read " + file + ": " + e.getMessage(), e);
+            throw new IllegalStateException("could not read " + workingDirectory.resolve(file) + ": " + e.getMessage(), e);
         }
     }
 
@@ -65,7 +65,7 @@ public class FileSystemTasks {
 
     public void copyResourceToFile(String source, String target) {
         Path targetPath = workingDirectory.resolve(target);
-        System.out.println("\tcopying " + source + " to " + workingDirectory.relativize(targetPath));
+        System.out.println("\tcopying " + source + " to " + workingDirectory.resolve(targetPath));
 
         try (InputStream in = getClass().getResourceAsStream("/" + source)) {
 
@@ -89,7 +89,7 @@ public class FileSystemTasks {
     }
 
     public List<Path> getFilesByExtension(final String fileExtension) {
-        final List<Path> result = new LinkedList<>();
+        final List<Path> result = new ArrayList<>();
 
         try {
             Files.walkFileTree(workingDirectory, new SimpleFileVisitor<Path>() {
@@ -99,7 +99,7 @@ public class FileSystemTasks {
                     super.visitFile(file, attributes);
 
                     if (file.getFileName().toString().endsWith(fileExtension)) {
-                        result.add(workingDirectory.relativize(file));
+                        result.add(file.toAbsolutePath());
                     }
                     return FileVisitResult.CONTINUE;
                 }
