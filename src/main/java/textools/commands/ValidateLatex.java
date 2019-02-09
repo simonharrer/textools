@@ -48,7 +48,6 @@ public class ValidateLatex implements Command {
         rules.put("(?<!et( |~)al)\\.~?\\\\cite", "use cite before the dot"); // use negative lookbehind in regex
         rules.put("[^~\\{\\}]\\\\cite[^tp]", "use '~\\cite' to prevent bad line breaks");
         rules.put("But ", "use 'A few words, however, ...' instead");
-        rules.put("(While|, while) ", "use 'Although' instead");
         rules.put("''\\.", "move . into quotes");
         rules.put("[Bb]ecause of this", "use hence instead of because of this");
         rules.put("(Java|activiti|camunda~BPM|ODE) \\d+", "Instead of Java 8, use Java~8");
