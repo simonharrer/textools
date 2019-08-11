@@ -1,8 +1,6 @@
 plugins {
-    id 'com.gradle.build-scan' version '1.3'
-    id "com.simonharrer.modernizer" version "1.4.0-1"
-    id "net.ltgt.errorprone" version "0.0.8"
-    id "one.util.huntbugs" version "0.3.5"
+    id "com.simonharrer.modernizer" version "1.6.0-1"
+    id "net.ltgt.errorprone" version "0.8"
 }
 
 apply plugin: "java"
@@ -10,6 +8,7 @@ apply plugin: "application"
 
 repositories {
     jcenter()
+    mavenCentral()
 }
 
 mainClassName = "textools.Main"
@@ -23,13 +22,15 @@ processResources {
 }
 
 sourceCompatibility = 1.8
-targetCompatibility = 1.8
+targetCompatibility = 11
 
 dependencies {
-    compile 'org.jbibtex:jbibtex:1.0.15'
-    testCompile 'junit:junit:4.12'
+    compile 'org.jbibtex:jbibtex:1.0.17'
+    errorprone("com.google.errorprone:error_prone_core:2.3.3")
+    testCompile 'org.junit.jupiter:junit-jupiter:5.4.2'
 }
 
-task wrapper(type: Wrapper) {
-    gradleVersion = '3.3'
+test {
+    useJUnitPlatform()
 }
+

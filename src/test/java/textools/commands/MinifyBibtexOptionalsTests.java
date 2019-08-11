@@ -1,21 +1,21 @@
 package textools.commands;
 
-import org.jbibtex.BibTeXDatabase;
-import org.jbibtex.BibTeXFormatter;
-import org.jbibtex.BibTeXParser;
-import org.jbibtex.ParseException;
-import org.junit.Test;
-
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
 
-import static org.junit.Assert.assertEquals;
+import org.jbibtex.BibTeXDatabase;
+import org.jbibtex.BibTeXFormatter;
+import org.jbibtex.BibTeXParser;
+import org.jbibtex.ParseException;
+import org.junit.jupiter.api.Test;
 
-public class MinifyBibtexOptionalsTests {
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+class MinifyBibtexOptionalsTests {
 
     @Test
-    public void testMinifyInproceedings() throws IOException, ParseException {
+    void testMinifyInproceedings() throws IOException, ParseException {
         String bibtexEntry = "@INPROCEEDINGS{Harrer2012BPELConformancein,\n" +
                 "  author = {Simon Harrer and Jörg Lenhard and Guido Wirtz},\n" +
                 "  title = {{BPEL Conformance in Open Source Engines}},\n" +
@@ -41,7 +41,7 @@ public class MinifyBibtexOptionalsTests {
     }
 
     @Test
-    public void testMinifyTechrep() throws IOException, ParseException {
+    void testMinifyTechrep() throws IOException, ParseException {
         String bibtexEntry = "@TECHREPORT{Harrer2012BetsyBPELEngine,\n" +
                 "  author = {Harrer, Simon and Lenhard, Jörg},\n" +
                 "  title = {{Betsy--A BPEL Engine Test System}},\n" +
@@ -66,7 +66,7 @@ public class MinifyBibtexOptionalsTests {
         assertEquals(minifiedEntry, minifyDatabase(bibtexEntry));
     }
 
-    public String minifyDatabase(String input) throws IOException, ParseException {
+    private String minifyDatabase(String input) throws IOException, ParseException {
         BibTeXDatabase database = new BibTeXParser().parse(new StringReader(input));
 
         new MinifyBibtexOptionals().minifyDatabase(database);
